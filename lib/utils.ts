@@ -6,14 +6,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("AOA", {
     style: "currency",
-    currency: "USD",
+    currency: "AOA",
   }).format(amount)
 }
 
 export function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("AOA", {
     year: "numeric",
     month: "long",
     day: "numeric",

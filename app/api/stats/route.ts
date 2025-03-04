@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, TransactionType } from "@prisma/client"
 import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "../auth/[...nextauth]/route"
@@ -49,7 +49,7 @@ export async function GET() {
           transactions: {
             where: {
               userId: session.user.id,
-              type: "EXPENSE",
+              type: "DESPESA",
             },
           },
         },
@@ -57,11 +57,11 @@ export async function GET() {
     ])
 
     const totalIncome = transactions
-      .filter((t) => t.type === "INCOME")
+      .filter((t) => t.type === "RECEITA")
       .reduce((sum, t) => sum + t.amount, 0)
 
     const totalExpenses = transactions
-      .filter((t) => t.type === "EXPENSE")
+      .filter((t) => t.type === TransactionType.DESPESA)
       .reduce((sum, t) => sum + t.amount, 0)
 
     const categoryBreakdown = categories
@@ -79,6 +79,8 @@ export async function GET() {
       categoryBreakdown,
     })
   } catch (error) {
+    console.log("ERRO", JSON.stringify(error));
+    
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

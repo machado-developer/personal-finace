@@ -1,6 +1,6 @@
 'use client'
 import { Menu, X } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { adminMenu, userMenu } from "../navmenu";
@@ -67,11 +67,11 @@ const Layout: React.FC<{ children: React.ReactNode; }> = ({ children, }) => {
                     <div className="relative">
                         <button onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-200 transition">
                             {/* <User className="w-6 h-6" /> */}
-                            <span className="font-medium">olá, {username}</span>
+                            <span className="font-medium">olá, {username?.split(" ")[0]}</span>
                         </button>
                         {dropdownOpen && (
                             <div className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-lg py-2">
-                                <button className="block w-full text-left px-4 py-2 hover:bg-gray-200" onClick={() => alert('Logout')}>Logout</button>
+                                <button className="block w-full text-left px-4 py-2 hover:bg-gray-200"  onClick={() => signOut({ callbackUrl: "/" })}>Logout</button>
                             </div>
                         )}
                     </div>

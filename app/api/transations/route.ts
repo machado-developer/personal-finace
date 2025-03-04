@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, TransactionType } from "@prisma/client"
 import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "../auth/[...nextauth]/route"
@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 
 const transactionSchema = z.object({
   amount: z.number().positive(),
-  type: z.enum(["INCOME", "EXPENSE"]),
+  type: z.nativeEnum(TransactionType),
   description: z.string().min(1),
   categoryId: z.string(),
 })
