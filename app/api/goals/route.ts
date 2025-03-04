@@ -50,7 +50,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         { message: "Unauthorized" },
         { status: 401 }
-      )
+          )
     }
 
     const body = await req.json()

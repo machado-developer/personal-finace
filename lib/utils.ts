@@ -17,5 +17,14 @@ export function formatDate(date: Date): string {
     year: "numeric",
     month: "long",
     day: "numeric",
+     
+  }).format(new Date(date))
+}
+
+export function formatHour(date: Date): string {
+  return new Intl.DateTimeFormat("AOA", {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
   }).format(new Date(date))
 }

@@ -3,7 +3,7 @@ import TransactionDialog from "@/components/transaction-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, formatDate, formatHour } from "@/lib/utils";
 import { ArrowDownCircle, ArrowUpCircle, Download, Plus, Target, Wallet } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -27,7 +27,7 @@ const DashboardPage = () => {
 
   const fetchTransactions = async () => {
     try {
-      const response = await fetch("/api/transactions");
+      const response = await fetch("/api/transations");
       const data = await response.json();
       setTransactions(data.transactions);
     } catch (error) {
@@ -124,6 +124,7 @@ const DashboardPage = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Data</TableHead>
+                  <TableHead>Hora</TableHead>
                   <TableHead>Tipo</TableHead>
                   <TableHead>Valor</TableHead>
                   <TableHead>Descrição</TableHead>
@@ -132,7 +133,8 @@ const DashboardPage = () => {
               <TableBody>
                 {transactions.map((transaction, index) => (
                   <TableRow key={index}>
-                    <TableCell>{transaction.date}</TableCell>
+                    <TableCell>{formatDate(new Date(transaction.date))}</TableCell>
+                    <TableCell>{formatHour(new Date(transaction.date))}</TableCell>
                     <TableCell>{transaction.type}</TableCell>
                     <TableCell>{formatCurrency(transaction.amount)}</TableCell>
                     <TableCell>{transaction.description}</TableCell>

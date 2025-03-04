@@ -23,7 +23,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const transactionSchema = z.object({
   amount: z.number().positive(),
-  type: z.enum(["INCOME", "EXPENSE"]),
+  type: z.enum(["RECEITA", "DESPESA"]),
   description: z.string().min(1),
   categoryId: z.string(),
 });
@@ -43,9 +43,9 @@ export default function TransactionDialog({
 }: TransactionDialogProps) {
   const [error, setError] = useState("");
   const [categories, setCategories] = useState<
-    { id: string; name: string; type: "INCOME" | "EXPENSE" }[]
+    { id: string; name: string; type: "RECEITA" | "DESPESA" }[]
   >([]);
-  const [selectedType, setSelectedType] = useState<"INCOME" | "EXPENSE" | "">(
+  const [selectedType, setSelectedType] = useState<"RECEITA" | "DESPESA" | "">(
     ""
   );
 
@@ -55,6 +55,7 @@ export default function TransactionDialog({
     formState: { errors, isSubmitting },
     reset,
     watch,
+    setValue,
   } = useForm<TransactionForm>({
     resolver: zodResolver(transactionSchema),
   });
@@ -64,11 +65,15 @@ export default function TransactionDialog({
     setSelectedType(watch("type") || "");
   }, [watch("type")]);
 
+  console.log("FORM ERROS", errors);
+  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await fetch("/api/categories");
         const data = await response.json();
+        console.log("CATEGORIAS", data);
+
         setCategories(data.categories);
       } catch (error) {
         console.error("Erro ao buscar categorias:", error);
@@ -79,8 +84,10 @@ export default function TransactionDialog({
   }, []);
 
   const onSubmit = async (data: TransactionForm) => {
+    console.log("DATA", data);
+    
     try {
-      const response = await fetch("/api/transactions", {
+      const response = await fetch("/api/transations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -100,11 +107,11 @@ export default function TransactionDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent aria-describedby="transaction-description">
         <DialogHeader>
           <DialogTitle>Adicionar Transação</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" id="transaction-description">
           {error && (
             <Alert variant="destructive">
               <AlertDescription>{error}</AlertDescription>
@@ -125,20 +132,25 @@ export default function TransactionDialog({
 
           {/* Select para Tipo */}
           <Select
-            onValueChange={(value) => setSelectedType(value as "INCOME" | "EXPENSE")}
-            {...register("type")}
+            onValueChange={(value) => {
+              setSelectedType(value as "RECEITA" | "DESPESA");
+              setValue("type", value as "RECEITA" | "DESPESA");
+            }}
           >
             <SelectTrigger>
               <SelectValue placeholder="Selecione o tipo" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="INCOME">Receita</SelectItem>
-              <SelectItem value="EXPENSE">Despesa</SelectItem>
+              <SelectItem value="RECEITA">Receita</SelectItem>
+              <SelectItem value="DESPESA">Despesa</SelectItem>
             </SelectContent>
           </Select>
 
           {/* Select para Categoria - Filtrado pelo Tipo */}
-          <Select {...register("categoryId")}>
+          <Select
+            onValueChange={(value) => setValue("categoryId", value)}
+            {...register("categoryId")}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Selecione a categoria" />
             </SelectTrigger>

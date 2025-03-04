@@ -17,7 +17,7 @@ import { z } from "zod"
 
 const categorySchema = z.object({
   name: z.string().min(1, "O nome da categoria é obrigatório"),
-  type: z.enum(["INCOME", "EXPENSE"], { required_error: "Selecione um tipo" })
+  type: z.enum(["RECEITA", "DESPESA"], { required_error: "Selecione um tipo" })
 })
 
 type CategoryForm = z.infer<typeof categorySchema>
@@ -82,13 +82,13 @@ export default function CategoryDialog({
             )}
           </div>
           <div className="space-y-2">
-            <Select onValueChange={(value) => setValue("type", value as "INCOME" | "EXPENSE")}>
+            <Select onValueChange={(value) => setValue("type", value as "RECEITA" | "DESPESA")}>
               <SelectTrigger>
                 <SelectValue placeholder="Selecione um tipo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="INCOME">Receita</SelectItem>
-                <SelectItem value="EXPENSE">Despesa</SelectItem>
+                <SelectItem value="RECEITA">Receita</SelectItem>
+                <SelectItem value="DESPESA">Despesa</SelectItem>
               </SelectContent>
             </Select>
             {errors.type && (

@@ -11,6 +11,8 @@ const transactionSchema = z.object({
   type: z.nativeEnum(TransactionType),
   description: z.string().min(1),
   categoryId: z.string(),
+  userId: z.string().optional(),
+  date: z.string().optional(),
 })
 
 export async function GET() {
@@ -75,7 +77,12 @@ export async function POST(req: Request) {
         { status: 400 }
       )
     }
-
+    console.error("Error details:", {
+      message: (error as any).message,
+      stack: (error as any).stack,
+      name: (error as any).name,
+      ...(error as any),
+    });
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
