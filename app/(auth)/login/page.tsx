@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import HeaderNonAuth from '@/components/header-non-auth';
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -17,42 +17,47 @@ import { z } from "zod";
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
-})
+});
 
-type LoginForm = z.infer<typeof loginSchema>
+type LoginForm = z.infer<typeof loginSchema>;
 
 export default function Home() {
-  const router = useRouter()
-  const [error, setError] = useState("")
+  const router = useRouter();
+  const [error, setError] = useState("");
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
-  })
+  });
 
   const onSubmit = async (data: LoginForm) => {
-    try {
-      const result = await signIn("credentials", {
-        redirect: false,
-        email: data.email,
-        password: data.password,
-      })
+    setError(""); // Resetar erro antes do envio
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+    });
 
-      if (result?.error) {
-        setError("Email ou senha inválidos")
-        return
-      }
-
-      router.push("/dashboard")
-      router.refresh()
-    } catch (error) {
-      setError("Ocorreu um erro. Por favor, tente novamente.")
+    if (result?.error) {
+      setError("email ou senha incorretos");
+      return;
     }
-  }
+
+    const sessionResponse = await fetch("/api/auth/session");
+    const session = await sessionResponse.json();
+
+    if (session?.user?.role === "ADMIN") {
+      router.push("/admin/dashboard");
+    } else {
+      router.push("/dashboard");
+    }
+
+    router.refresh();
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
-      <HeaderNonAuth/>
+      <HeaderNonAuth />
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-40">
+      <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-40 min-h-screen">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
             <motion.h1
@@ -61,7 +66,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-             Faça login e gerencie as suas finanças  com facilidade
+              Gerencie as suas finanças com facilidade
             </motion.h1>
             <motion.p
               className="text-xl mb-8"
@@ -71,10 +76,9 @@ export default function Home() {
             >
               Controle seus gastos, economize e alcance seus objetivos financeiros com nosso sistema intuitivo.
             </motion.p>
-           
           </div>
           <div className="md:w-1/2 h-full flex items-center">
-            <Card className="w-full h-full flex flex-col justify-center">
+            <Card className="w-full h-full flex flex-col justify-center w-[25rem] min-h-[500px]">
               <CardHeader className="space-y-1">
                 <motion.h1
                   className="text-2xl font-bold tracking-tight text-gradient-to-r from-green-600 to-green-800"
@@ -129,9 +133,19 @@ export default function Home() {
                   </Button>
                   <p className="text-sm text-center text-muted-foreground">
                     Não tem uma conta?{" "}
-                    <Link href="/register" className="text-primary hover:underline ">
+                    <Link href="/register" className="text-primary hover:underline">
                       Cadastre-se
                     </Link>
+
+                  </p>
+                  <br>
+                  </br>
+                  <p className="text-sm text-center text-muted-foreground">
+
+                    <Link href="/recovery-password" className="text-primary hover:underline">
+                      Recuperar a senha?{" "}
+                    </Link>
+
                   </p>
                 </CardFooter>
               </form>

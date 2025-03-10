@@ -60,17 +60,20 @@ const onSubmit = async (data: FormData) => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label htmlFor="description">Descrição</Label>
-            <Input id="description" {...register("description")} placeholder="Ex: Conta de luz" />
+           <input 
+autoComplete="new-password" id="description" {...register("description")} placeholder="Ex: Conta de luz" />
             {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
           </div>
           <div>
             <Label htmlFor="amount">Valor</Label>
-            <Input id="amount" type="number" {...register("amount", { valueAsNumber: true })} placeholder="Ex: 100" />
+           <input 
+autoComplete="new-password" id="amount" type="number" {...register("amount", { valueAsNumber: true })} placeholder="Ex: 100" />
             {errors.amount && <p className="text-red-500 text-sm">{errors.amount.message}</p>}
           </div>
           <div>
             <Label htmlFor="date">Data</Label>
-            <Input id="date" type="date" {...register("date")} />
+           <input 
+autoComplete="new-password" id="date" type="date" {...register("date")} />
             {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
           </div>
           <div className="flex justify-end space-x-2">

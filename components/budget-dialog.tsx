@@ -96,7 +96,8 @@ export default function DialogBudget({
             </Alert>
           )}
           <div className="space-y-2">
-            <Input placeholder="Valor" {...register("amount")} className={errors.amount ? "border-destructive" : ""} />
+           <input 
+autoComplete="new-password" placeholder="Valor" {...register("amount")} className={errors.amount ? "border-destructive" : ""} />
             {errors.amount && <p className="text-sm text-destructive">{errors.amount.message}</p>}
           </div>
           <div className="space-y-2">
@@ -112,14 +113,17 @@ export default function DialogBudget({
             {errors.type && <p className="text-sm text-destructive">{errors.type.message}</p>}
           </div>
           <div className="space-y-2">
-            <Input placeholder="Categoria" {...register("category")} className={errors.category ? "border-destructive" : ""} />
+           <input 
+autoComplete="new-password" placeholder="Categoria" {...register("category")} className={errors.category ? "border-destructive" : ""} />
             {errors.category && <p className="text-sm text-destructive">{errors.category.message}</p>}
           </div>
           <div className="space-y-2">
-            <Input placeholder="Descrição (opcional)" {...register("description")} />
+           <input 
+autoComplete="new-password" placeholder="Descrição (opcional)" {...register("description")} />
           </div>
           <div className="space-y-2">
-            <Input type="date" {...register("date")} className={errors.date ? "border-destructive" : ""} />
+           <input 
+autoComplete="new-password" type="date" {...register("date")} className={errors.date ? "border-destructive" : ""} />
             {errors.date && <p className="text-sm text-destructive">{errors.date.message}</p>}
           </div>
           <Button type="submit" className="w-full bg-gradient-to-r from-green-500 to-green-700 text-white" disabled={isSubmitting}>

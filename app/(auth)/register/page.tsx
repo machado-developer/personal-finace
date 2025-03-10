@@ -53,8 +53,26 @@ export default function Home() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-40">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
+        <div className="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
+            <motion.h1
+              className="text-5xl md:text-7xl font-bold mb-6"
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+             Gerencie suas finanças com autonomia
+            </motion.h1>
+            <motion.p
+              className="text-xl mb-8"
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Controle seus gastos, economize e alcance seus objetivos financeiros .
+            </motion.p>
+          </div>
           <div className="md:w-1/2 h-full flex items-center">
-            <Card className="w-full h-full flex flex-col justify-center">
+            <Card className="w-[30rem]   flex flex-col justify-center">
               <CardHeader className="space-y-1">
                 <motion.h1
                   className="text-2xl font-bold tracking-tight text-gradient-to-r from-green-600 to-green-800"
@@ -127,24 +145,7 @@ export default function Home() {
               </form>
             </Card>
           </div>
-          <div className="md:w-1/2 text-center md:text-right mb-8 md:mb-0">
-            <motion.h1
-              className="text-5xl md:text-7xl font-bold mb-6"
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-             Crie sua conta e gerencie suas finanças com facilidade
-            </motion.h1>
-            <motion.p
-              className="text-xl mb-8"
-              initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              Controle seus gastos, economize e alcance seus objetivos financeiros com nosso sistema intuitivo.
-            </motion.p>
-          </div>
+          
         </div>
       </section>
     </div>

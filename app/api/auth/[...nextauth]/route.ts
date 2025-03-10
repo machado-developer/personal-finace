@@ -1,3 +1,6 @@
+import logAction from "@/services/auditService"
+import { getDeviceInfo } from "@/services/getDeviceInfo"
+import { getLocationInfo } from "@/services/getLocationInfo"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcryptjs"
@@ -37,6 +40,22 @@ export const authOptions = {
           if (!isPasswordValid) {
             return null
           }
+          // (async () => {
+          //   try {
+          //     const deviceInfo = getDeviceInfo();
+          //     const locationInfo = await getLocationInfo();
+          //     await logAction(user.id, "Novo Inicio de sessão",
+          //       `Email ${user.email} logged in successfully. Device: ${deviceInfo}, Location: ${locationInfo}`
+          //     );
+          //   } catch (error) {
+          //     console.error("Erro ao registrar logs de login:", error);
+          //   }
+          // })();
+
+
+
+
+          await logAction(user.id, "Novo inicio de sessao", `nome: ${user.name}, perfil: ${user.role.toLocaleLowerCase()}`);
 
           return {
             id: user.id,
@@ -56,19 +75,20 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }: { token: any; user?: any }) {
       if (user) {
-        token.role = user.role
         token.id = user.id
+        token.role = user.role
       }
       return token
     },
     async session({ session, token }: { session: any; token: any }) {
       if (session?.user) {
-        session.user.role = token.role
         session.user.id = token.id
+        session.user.role = token.role
       }
       return session
     },
   },
+
   pages: {
     signIn: "/login",
   },

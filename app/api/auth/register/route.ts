@@ -1,7 +1,10 @@
+import logAction from "@/services/auditService"
 import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcryptjs"
+import { getServerSession } from "next-auth"
 import { NextResponse } from "next/server"
 import { z } from "zod"
+import { authOptions } from "../[...nextauth]/route"
 
 const prisma = new PrismaClient()
 
@@ -9,12 +12,13 @@ const registerSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
   password: z.string().min(6),
+  role: z.enum(["USER", "ADMIN"]).default("USER")
 })
 
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { name, email, password } = registerSchema.parse(body)
+    const { name, email, password, role = "USER" } = registerSchema.parse(body)
 
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -34,25 +38,42 @@ export async function POST(req: Request) {
         name,
         email,
         password: hashedPassword,
+        role
       },
     })
+    const session = await getServerSession(authOptions)
+    const userId = session.user.id ? session.user.id : user.id;
+
+
+
+    await logAction(userId, "Novo usuario registado", `nome: ${user.name}, perfil: ${role.toLocaleLowerCase()}`);
 
     return NextResponse.json(
       { message: "User registered successfully" },
       { status: 201 }
     )
   } catch (error) {
-    console.log("EROO",JSON.stringify(error));
+    
     if (error instanceof z.ZodError) {
-      
+      console.log("Error details:", {
+        message: (error as any).message,
+        stack: (error as any).stack,
+        name: (error as any).name,
+        ...(error as any),
+      });
       return NextResponse.json(
         { message: "Invalid input data" },
         { status: 400 }
       )
     }
-    
- 
-   
+
+
+    console.log("Error details:", {
+      message: (error as any).message,
+      stack: (error as any).stack,
+      name: (error as any).name,
+      ...(error as any),
+    });
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

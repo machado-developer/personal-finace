@@ -18,41 +18,47 @@ export async function GET() {
 
     const [transactions, goals, categories] = await Promise.all([
       prisma.transaction.findMany({
-        where: {
-          userId: session.user.id,
-        },
-        include: {
-          category: true,
-        },
+      where: {
+        userId: session.user.id,
+      },
+      include: {
+        category: true,
+      },
+      take: 5,
       }),
       prisma.goal.findMany({
-        where: {
-          userId: session.user.id,
-          deadline: {
-            gte: new Date(),
-          },
+      where: {
+        userId: session.user.id,
+        deadline: {
+        gte: new Date(),
         },
-        orderBy: {
-          deadline: "asc",
+        savedAmount: {
+        lt: prisma.goal.fields.targetAmount, // Apenas metas ainda não atingidas
         },
-        take: 5,
+      },
+      orderBy: {
+        deadline: "asc",
+      },
+      take: 5,
       }),
       prisma.category.findMany({
+      where: {
+        transactions: {
+        some: {
+          userId: session.user.id,
+        },
+        },
+      },
+      include: {
+        transactions: {
         where: {
-          transactions: {
-            some: {
-              userId: session.user.id,
-            },
-          },
+          userId: session.user.id,
+          type: "DESPESA",
         },
-        include: {
-          transactions: {
-            where: {
-              userId: session.user.id,
-              type: "DESPESA",
-            },
-          },
+        take: 5,
         },
+      },
+      take: 5,
       }),
     ])
 
@@ -80,7 +86,7 @@ export async function GET() {
     })
   } catch (error) {
     console.log("ERRO", JSON.stringify(error));
-    
+
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

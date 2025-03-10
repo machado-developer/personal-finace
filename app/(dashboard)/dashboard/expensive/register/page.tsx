@@ -152,17 +152,20 @@ const ExpensesPage = () => {
                   <option key={category} value={category}>{category}</option>
                 ))}
               </Select>
-              <Input
+             <input 
+autoComplete="new-password"
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                 placeholder="Descrição"
               />
-              <Input
+             <input 
+autoComplete="new-password"
                 value={form.amount}
                 onChange={(e) => setForm({ ...form, amount: e.target.value })}
                 placeholder="Valor"
               />
-              <Input
+             <input 
+autoComplete="new-password"
                 value={form.date}
                 onChange={(e) => setForm({ ...form, date: e.target.value })}
                 placeholder="Data"

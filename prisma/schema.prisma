@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  seed     = "ts-node prisma/seed.ts"
 }
 
 datasource db {
@@ -8,79 +9,85 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String?
-  password      String
-  role          Role      @default(USER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  transactions  Transaction[]
-  budgets       Budget[]
-  goals         Goal[]
-  categories    Category[]
-  logs          Log[]
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String?
+  password     String
+  role         Role          @default(USER)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+  budgets      Budget[]
+  goals        Goal[]
+  categories   Category[]
+  logs         Log[]
 }
 
 model Transaction {
-  id          String    @id @default(cuid())
+  id          String          @id @default(cuid())
   amount      Float
   type        TransactionType
   description String
   date        DateTime
   userId      String
   categoryId  String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id])
-  category    Category  @relation(fields: [categoryId], references: [id])
+  goalId      String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  user        User            @relation(fields: [userId], references: [id])
+  category    Category        @relation(fields: [categoryId], references: [id])
+  goal        Goal?           @relation(fields: [goalId], references: [id])
 }
 
 model Category {
-  id           String    @id @default(cuid())
+  id           String          @id @default(cuid())
   name         String
   type         TransactionType
   createdById  String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
   transactions Transaction[]
-  createdBy    User      @relation(fields: [createdById], references: [id])
+  createdBy    User            @relation(fields: [createdById], references: [id])
   budgets      Budget[]
+  goals        Goal[]
 }
 
 model Budget {
-  id          String   @id @default(uuid())
-  userId      String   // Relaciona o orçamento ao usuário
-  categoryId  String   // Categoria do orçamento
-  amount      Decimal  // Valor do orçamento
-  startDate   DateTime // Data de início
-  endDate     DateTime // Data de término
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(uuid())
+  userId     String // Relaciona o orçamento ao usuário
+  categoryId String // Categoria do orçamento
+  amount     Float // Valor do orçamento (antes estava como Decimal)
+  startDate  DateTime // Data de início
+  endDate    DateTime // Data de término
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  category    Category @relation(fields: [categoryId], references: [id])
-  user        User     @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
 }
 
 model Goal {
-  id          String    @id @default(cuid())
-  name        String
-  targetAmount Float
-  currentAmount Float    @default(0)
-  deadline    DateTime
-  userId      String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id])
+  id           String        @id @default(uuid())
+  name         String
+  targetAmount Decimal
+  savedAmount  Decimal       @default(0)
+  deadline     DateTime
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId   String
+  category     Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model Log {
-  id        String    @id @default(cuid())
+  id        String   @id @default(cuid())
   action    String
   details   String
   userId    String
-  createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 enum Role {

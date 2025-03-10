@@ -130,16 +130,30 @@ const DashboardPage = () => {
                   <TableHead>Descrição</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
-                {transactions.map((transaction, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{formatDate(new Date(transaction.date))}</TableCell>
-                    <TableCell>{formatHour(new Date(transaction.date))}</TableCell>
-                    <TableCell>{transaction.type}</TableCell>
-                    <TableCell>{formatCurrency(transaction.amount)}</TableCell>
-                    <TableCell>{transaction.description}</TableCell>
-                  </TableRow>
-                ))}
+              <TableBody>{transactions.map((transaction, index) => (
+                <TableRow key={index}>
+                  <TableCell>{formatDate(new Date(transaction.date))}</TableCell>
+                  <TableCell>{formatHour(new Date(transaction.date))}</TableCell>
+                  <TableCell className="flex items-center gap-2">
+                    {transaction.type === "RECEITA" ? (
+                      <ArrowUpCircle className="text-green-500 w-5 h-5" />
+                    ) : (
+                      <ArrowDownCircle className="text-red-500 w-5 h-5" />
+                    )}
+                    {transaction.type}
+                  </TableCell>
+                  <TableCell>
+                    <span className={
+                      transaction.type==='DESPESA' ? "bg-red-200 text-red-700 px-2 py-1 rounded-md" : "bg-green-200 text-green-700 px-2 py-1 rounded-md"
+                    }
+
+                    >
+                      {transaction.type === "RECEITA" ? "+" : "-"} {formatCurrency(transaction.amount)}
+                    </span>
+                  </TableCell>
+                  <TableCell>{transaction.description}</TableCell>
+                </TableRow>
+              ))}
               </TableBody>
             </Table>
           </CardContent>
@@ -148,6 +162,7 @@ const DashboardPage = () => {
 
       <TransactionDialog
         open={isDialogOpen}
+        isEditing={false}
         onOpenChange={setIsDialogOpen}
         onSuccess={() => {
           fetchTransactions();
