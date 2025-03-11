@@ -12,6 +12,7 @@ export default function VerifyCode() {
   const [error, setError] = useState("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -26,12 +27,35 @@ export default function VerifyCode() {
     }
   }, [code]);
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const email = queryParams.get("email");
+    if (email) {
+      setEmail(email);
+    }
+  }, []);
+
   const validateCode = async () => {
-    const enteredCode = code.join("");
-    if (enteredCode === "12345" && timeLeft > 0) { // Simulando código válido
-      router.push("/reset-password");
-    } else {
-      setError("Código inválido ou expirado.");
+    try {
+      const response = await fetch("/api/recovery/verify-code", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: code.join(""), email }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        router.push(`/reset-password?email=${email}&token=${code.join("")}`);
+      } else if (response.status === 400) {
+        setError(data.message || "Código inválido, tente novamente.");
+      } else {
+        setError("Ocorreu um erro inesperado. Tente novamente mais tarde.");
+      }
+    } catch (error) {
+      setError("Erro de conexão. Verifique sua internet e tente novamente.");
     }
   };
 
@@ -40,7 +64,7 @@ export default function VerifyCode() {
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
-    
+
     if (value && index < 4) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -53,7 +77,7 @@ export default function VerifyCode() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 flex items-center justify-center min-h-screen bg-gradient-to-r from-green-600 to-green-800 text-white py-40">
       <Card className="w-96 p-6">
         <CardHeader className="text-center text-lg font-bold">Digite o código de verificação</CardHeader>
         <CardContent>

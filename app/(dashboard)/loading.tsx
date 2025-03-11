@@ -2,7 +2,11 @@
 
 import { DollarSign } from "lucide-react";
 
-const Loading = () => {
+interface LoadingProps {
+  title: string;
+}
+
+const Loading = ({ title }: LoadingProps) => {
   return (
     <div className="flex justify-center items-center h-screen  ">
       <div className="flex flex-col items-center space-y-3 bg-white/10 p-6 rounded-lg shadow-lg">

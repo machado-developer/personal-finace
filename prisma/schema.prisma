@@ -21,6 +21,17 @@ model User {
   goals        Goal[]
   categories   Category[]
   logs         Log[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid()) // Identificador único
+  userId    String   // Relacionado ao usuário
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique // Código de recuperação (5 dígitos)
+  expiresAt DateTime // Expiração do código
+
+  @@index([userId]) // Índice para facilitar a busca pelo usuário
 }
 
 model Transaction {
