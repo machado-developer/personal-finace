@@ -1,5 +1,6 @@
+import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+"@/lib/auth";
 import { NextResponse } from "next/server";
 
 // Atualizar uma meta financeira
@@ -12,7 +13,7 @@ export async function PUT(req: Request) {
 
         const { id, ...updates } = await req.json();
         const updatedGoal = await prisma.goal.update({
-            where: { id, userId: session.user.id },
+            where: { id, userId: session?.user?.id },
             data: updates,
         });
 
@@ -20,10 +21,18 @@ export async function PUT(req: Request) {
             data: {
                 action: "GOAL_UPDATED",
                 details: `Updated financial goal: ${updatedGoal.name}`,
-                userId: session.user.id,
+                userId: session?.user?.id,
             },
         });
+        const goalActual = await prisma.goal.findUnique({
+            where: { id },
+            include: {
+                category: true
+            }
+        });
 
+        //registrando a nova transacao com os dados da meta actual
+       
         return NextResponse.json(updatedGoal);
     } catch (error) {
         return NextResponse.json({ message: "Internal server error" }, { status: 500 });
@@ -40,14 +49,14 @@ export async function DELETE(req: Request) {
 
         const { id } = await req.json();
         await prisma.goal.delete({
-            where: { id, userId: session.user.id },
+            where: { id, userId: session?.user?.id },
         });
 
         await prisma.log.create({
             data: {
                 action: "Meta excluída",
                 details: `Deleted financial goal with ID: ${id}`,
-                userId: session.user.id,
+                userId: session?.user?.id,
             },
         });
 

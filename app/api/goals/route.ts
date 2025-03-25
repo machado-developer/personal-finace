@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { z } from "zod";
+import logAction from "@/services/auditService";
 
 const prisma = new PrismaClient();
 
@@ -32,7 +33,8 @@ export async function POST(req: Request) {
       data: {
         ...data,
         deadline: new Date(data.deadline),
-        userId: session.user.id,
+        userId: session?.user?.id,
+
       },
     });
 
@@ -40,9 +42,34 @@ export async function POST(req: Request) {
       data: {
         action: "Nova meta criada",
         details: `Created financial goal: id: ${goal.id},\n ${data.name}`,
-        userId: session.user.id,
+        userId: session?.user?.id,
       },
     });
+
+    const userId = session?.user?.id;
+    const category = await prisma.category.findUnique({
+      where: { id: data.categoryId },
+    });
+
+    if (!category) {
+      return NextResponse.json({ message: "Category not found" }, { status: 404 });
+    }
+    if (data.savedAmount) {
+
+      const transaction = await prisma.transaction.create({
+        data: {
+          description: `Valor movimentado referente a meta financeira ${goal?.name}`,
+          categoryId: goal?.categoryId ?? "",
+          amount: goal.savedAmount.toNumber(),
+          type: category?.type,  // Ensure type is TransactionType
+          userId: session?.user?.id,
+          date: new Date(),
+        },
+      })
+      await logAction(userId, "Nova Transação", `Descrição: ${transaction.description}, Tipo: ${transaction.type}, Quantia: ${transaction.amount}`);
+
+    }
+
 
     return NextResponse.json(goal, { status: 201 });
   } catch (error) {
@@ -53,7 +80,7 @@ export async function POST(req: Request) {
         name: (error as any).name,
         ...(error as any),
       });
-      
+
       return NextResponse.json({ message: "Invalid input data" }, { status: 400 });
     }
     console.error("Error details:", {
@@ -76,7 +103,7 @@ export async function GET() {
     }
 
     const goals = await prisma.goal.findMany({
-      where: { userId: session.user.id },
+      where: { userId: session?.user?.id },
       orderBy: { deadline: "asc" },
     });
 

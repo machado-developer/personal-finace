@@ -96,8 +96,8 @@ export default function DialogBudget({
             </Alert>
           )}
           <div className="space-y-2">
-           <input 
-autoComplete="new-password" placeholder="Valor" {...register("amount")} className={errors.amount ? "border-destructive" : ""} />
+            <Input
+              autoComplete="new-password" placeholder="Valor" {...register("amount")} className={errors.amount ? "border-destructive" : ""} />
             {errors.amount && <p className="text-sm text-destructive">{errors.amount.message}</p>}
           </div>
           <div className="space-y-2">
@@ -113,17 +113,17 @@ autoComplete="new-password" placeholder="Valor" {...register("amount")} classNam
             {errors.type && <p className="text-sm text-destructive">{errors.type.message}</p>}
           </div>
           <div className="space-y-2">
-           <input 
-autoComplete="new-password" placeholder="Categoria" {...register("category")} className={errors.category ? "border-destructive" : ""} />
+            <Input
+              autoComplete="new-password" placeholder="Categoria" {...register("category")} className={errors.category ? "border-destructive" : ""} />
             {errors.category && <p className="text-sm text-destructive">{errors.category.message}</p>}
           </div>
           <div className="space-y-2">
-           <input 
-autoComplete="new-password" placeholder="Descrição (opcional)" {...register("description")} />
+            <Input
+              autoComplete="new-password" placeholder="Descrição (opcional)" {...register("description")} />
           </div>
           <div className="space-y-2">
-           <input 
-autoComplete="new-password" type="date" {...register("date")} className={errors.date ? "border-destructive" : ""} />
+            <Input
+              autoComplete="new-password" type="date" {...register("date")} className={errors.date ? "border-destructive" : ""} />
             {errors.date && <p className="text-sm text-destructive">{errors.date.message}</p>}
           </div>
           <Button type="submit" className="w-full bg-gradient-to-r from-green-500 to-green-700 text-white" disabled={isSubmitting}>

@@ -16,17 +16,19 @@ model User {
   role         Role          @default(USER)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+  actived      Boolean       @default(true)
   transactions Transaction[]
-  budgets      Budget[]
-  goals        Goal[]
-  categories   Category[]
-  logs         Log[]
+
+  goals               Goal[]
+  categories          Category[]
+  logs                Log[]
   passwordResetTokens PasswordResetToken[]
 }
 
 model PasswordResetToken {
   id        String   @id @default(uuid()) // Identificador único
-  userId    String   // Relacionado ao usuário
+  userId    String // Relacionado ao usuário
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   token     String   @unique // Código de recuperação (5 dígitos)
   expiresAt DateTime // Expiração do código
@@ -59,22 +61,8 @@ model Category {
   updatedAt    DateTime        @updatedAt
   transactions Transaction[]
   createdBy    User            @relation(fields: [createdById], references: [id])
-  budgets      Budget[]
-  goals        Goal[]
-}
 
-model Budget {
-  id         String   @id @default(uuid())
-  userId     String // Relaciona o orçamento ao usuário
-  categoryId String // Categoria do orçamento
-  amount     Float // Valor do orçamento (antes estava como Decimal)
-  startDate  DateTime // Data de início
-  endDate    DateTime // Data de término
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  category Category @relation(fields: [categoryId], references: [id])
-  user     User     @relation(fields: [userId], references: [id])
+  goals Goal[]
 }
 
 model Goal {

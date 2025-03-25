@@ -1,11 +1,12 @@
 import { PrismaClient, TransactionType } from "@prisma/client"
 import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "../auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 import { z } from "zod"
 import logAction from "@/services/auditService"
+import { prisma } from "@/lib/prisma"
 
-const prisma = new PrismaClient()
+ 
 
 const transactionSchema = z.object({
   amount: z.number().positive(),
@@ -16,7 +17,7 @@ const transactionSchema = z.object({
   date: z.string().optional(),
 })
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ type?: string }> }) {
   try {
     const session = await getServerSession(authOptions)
 
@@ -38,7 +39,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
     const transactions = await prisma.transaction.findMany({
       where: {
-        userId: session.user.id,
+        userId: session?.user?.id,
         type: type as TransactionType
       },
       include: {
@@ -49,9 +50,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
       },
     })
 
-    console.log("TRANSA:", transactions);
 
-    return NextResponse.json({ transactions })
+
+    return NextResponse.json({ staus: 200, transactions })
 
   } catch (error) {
     return NextResponse.json(
@@ -74,11 +75,11 @@ export async function POST(req: Request) {
 
     const body = await req.json()
     const data = transactionSchema.parse(body)
-    const userId = session.user.id;
+    const userId = session?.user?.id;
     const transaction = await prisma.transaction.create({
       data: {
         ...data,
-        userId: session.user.id,
+        userId: session?.user?.id,
         date: new Date(),
       },
     })

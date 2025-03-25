@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client"
 import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "../auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 import { z } from "zod"
 import logAction from "@/services/auditService"
-
-const prisma = new PrismaClient()
+import { prisma } from "@/lib/prisma";
 
 const categorySchema = z.object({
   id: z.string().uuid().optional(),
@@ -17,7 +15,7 @@ export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session?.user || !session.user.id) {
+    if (!session?.user || !session?.user?.id) {
       return NextResponse.json(
         { message: "Unauthorized" },
         { status: 401 }
@@ -27,7 +25,7 @@ export async function GET(req: NextRequest) {
 
     const categories = await prisma.category.findMany({
       where: {
-        createdById: session.user.id,
+        createdById: session?.user?.id,
       },
       orderBy: {
         name: "asc",
@@ -51,8 +49,6 @@ export async function GET(req: NextRequest) {
   }
 }
 
-
-
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
@@ -66,7 +62,7 @@ export async function POST(req: Request) {
 
     const body = await req.json()
     const data = categorySchema.parse(body)
-    const userId = session.user.id;
+    const userId = session?.user?.id;
     const category = await prisma.category.create({
       data: {
         ...data,
@@ -74,7 +70,7 @@ export async function POST(req: Request) {
         createdBy: {
           connect: {
             id: session.user?.id,
-            email: session.user?.email,
+            email: session.user?.email?.toString(),
           },
         },
       },

@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <HeaderNonAuth/>
+      <HeaderNonAuth />
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-40">
         <div className="container mx-auto px-4">
@@ -159,7 +159,7 @@ export default function Home() {
             >
               {testimonials.map((testimonial, index) => (
                 <div key={index} className="p-6 bg-white rounded-lg shadow-md">
-                  <p className="text-lg text-gray-800 mb-4">"{testimonial.feedback}"</p>
+                  <p className="text-lg text-gray-800 mb-4">&quot;{testimonial.feedback} &ldquo;</p>
                   <p className="text-sm font-semibold text-gray-600">- {testimonial.name}</p>
                 </div>
               ))}
@@ -194,8 +194,8 @@ export default function Home() {
           >
             <Button size="lg" className="bg-green-600 hover:bg-green-700" asChild>
               <Link href="/register">
-              Comece Agora
-              <ArrowRight className="ml-2 h-5 w-5" />
+                Comece Agora
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <p className="text-gray-600 mt-4">Carregando...</p>

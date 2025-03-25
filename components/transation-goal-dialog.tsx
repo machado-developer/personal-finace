@@ -42,7 +42,7 @@ export default function TransactionGoalDialog({ open, onOpenChange, goalId, onSu
 
             if (!response.ok) {
                 if (response.status === 400) {
-                    const {error} = await response.json()
+                    const { error } = await response.json()
                     throw new Error(error || "Falha ao realizar a transação")
                 }
                 throw new Error("Falha ao realizar a transação")
@@ -64,8 +64,8 @@ export default function TransactionGoalDialog({ open, onOpenChange, goalId, onSu
                 </DialogHeader>
                 <form onSubmit={handleSubmit(handleSaveTransaction)} className="space-y-4">
                     <div>
-                       <input 
-autoComplete="new-password"
+                        <Input
+                            autoComplete="new-password"
                             {...register("amount")}
                             type="number"
                             placeholder="Valor da transação"

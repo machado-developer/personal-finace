@@ -30,26 +30,26 @@ const ExpenseDialog = ({ open, onOpenChange, onSuccess }: ExpenseDialogProps) =>
 
   const [loading, setLoading] = useState(false);
 
-interface FormData {
+  interface FormData {
     description: string;
     amount: number;
     date: string;
-}
+  }
 
-const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-        // Simulação de envio para API
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        alert("Despesa cadastrada com sucesso!");
-        onSuccess();
-        onOpenChange(false);
+      // Simulação de envio para API
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      alert("Despesa cadastrada com sucesso!");
+      onSuccess();
+      onOpenChange(false);
     } catch (error) {
-        alert("Erro ao cadastrar despesa");
+      alert("Erro ao cadastrar despesa");
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -60,20 +60,20 @@ const onSubmit = async (data: FormData) => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label htmlFor="description">Descrição</Label>
-           <input 
-autoComplete="new-password" id="description" {...register("description")} placeholder="Ex: Conta de luz" />
+            <Input
+              autoComplete="new-password" id="description" {...register("description")} placeholder="Ex: Conta de luz" />
             {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
           </div>
           <div>
             <Label htmlFor="amount">Valor</Label>
-           <input 
-autoComplete="new-password" id="amount" type="number" {...register("amount", { valueAsNumber: true })} placeholder="Ex: 100" />
+            <Input
+              autoComplete="new-password" id="amount" type="number" {...register("amount", { valueAsNumber: true })} placeholder="Ex: 100" />
             {errors.amount && <p className="text-red-500 text-sm">{errors.amount.message}</p>}
           </div>
           <div>
             <Label htmlFor="date">Data</Label>
-           <input 
-autoComplete="new-password" id="date" type="date" {...register("date")} />
+            <Input
+              autoComplete="new-password" id="date" type="date" {...register("date")} />
             {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
           </div>
           <div className="flex justify-end space-x-2">

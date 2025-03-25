@@ -1,7 +1,8 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
+"@/lib/auth";
 
 
 export async function PUT(req: Request,) {
@@ -15,7 +16,7 @@ export async function PUT(req: Request,) {
             );
         }
 
-        const userId = session.user.id;
+        const userId = session?.user?.id;
         const { name, email } = await req.json();
 
         const updatedProfile = await prisma.user.update({

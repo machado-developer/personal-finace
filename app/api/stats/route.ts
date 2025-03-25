@@ -1,7 +1,7 @@
 import { PrismaClient, TransactionType } from "@prisma/client"
 import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "../auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
 
 const prisma = new PrismaClient()
 
@@ -19,7 +19,7 @@ export async function GET() {
     const [transactions, goals, categories] = await Promise.all([
       prisma.transaction.findMany({
       where: {
-        userId: session.user.id,
+        userId: session?.user?.id,
       },
       include: {
         category: true,
@@ -28,7 +28,7 @@ export async function GET() {
       }),
       prisma.goal.findMany({
       where: {
-        userId: session.user.id,
+        userId: session?.user?.id,
         deadline: {
         gte: new Date(),
         },
@@ -45,14 +45,14 @@ export async function GET() {
       where: {
         transactions: {
         some: {
-          userId: session.user.id,
+          userId: session?.user?.id,
         },
         },
       },
       include: {
         transactions: {
         where: {
-          userId: session.user.id,
+          userId: session?.user?.id,
           type: "DESPESA",
         },
         take: 5,

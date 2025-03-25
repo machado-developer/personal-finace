@@ -26,7 +26,7 @@ export default function ForgotPassword() {
         resolver: zodResolver(forgotPasswordSchema),
     });
 
-    
+
 
     const onSubmit = async (data: ForgotPasswordForm) => {
         setMessage("");
@@ -37,10 +37,10 @@ export default function ForgotPassword() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-    
+
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || "Erro ao solicitar recuperação");
-            
+
             setMessage("Se o email estiver cadastrado, enviaremos um código de verificação");
             setTimeout(() => {
                 router.push(`/verify-code?email=${data.email}`); // Correção aqui

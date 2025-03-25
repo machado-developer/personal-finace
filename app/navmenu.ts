@@ -1,3 +1,5 @@
+'use client'
+
 import {
     Coins,
     DollarSign,
@@ -19,15 +21,12 @@ const adminMenu = [
     { name: "Usuários", link: `${pathAmin}users`, icon: Users },
     { name: "Transações", link: `${pathAmin}transactions`, icon: Receipt },
     { name: "Categorias", link: `${pathAmin}categories `, icon: ListCollapse },
-    {
-        name: "Orçamentos", link: `${pathAmin}budgets`, icon: Coins
-    },
+    
     { name: "Metas Financeiras", link: `${pathAmin}goals`, icon: Goal },
     { name: "Relatórios", link: `${pathAmin}reports`, icon: BarChart4 },
     {
         name: "Auditoria", link: `${pathAmin}logs`, icon: Logs
     },
-    { name: "Configurações", link: `${pathAmin}settings`, icon: Settings },
 ];
 
 const userMenu = [

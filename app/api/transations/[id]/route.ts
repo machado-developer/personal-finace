@@ -1,9 +1,10 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/route";
+"@/lib/auth";
 import { z } from "zod";
 import { PrismaClient, TransactionType } from "@prisma/client";
 import logAction from "@/services/auditService";
+import { authOptions } from "@/lib/auth";
 
 const prisma = new PrismaClient()
 
@@ -15,8 +16,9 @@ const transactionSchema = z.object({
     userId: z.string().optional(),
     date: z.string().optional(),
 })
-export async function DELETE(req: Request, { params: { id } }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
+        const id = (await params).id; // Await the params promise to get the id
         const session = await getServerSession(authOptions)
 
         if (!session?.user) {
@@ -34,10 +36,10 @@ export async function DELETE(req: Request, { params: { id } }: { params: { id: s
         await prisma.transaction.delete({
             where: {
                 id,
-                userId: session.user.id,
+                userId: session?.user?.id,
             },
         })
-        await logAction(session.user.id, "Exclusão de Transação", `ID: ${id}`);
+        await logAction(session?.user?.id, "Exclusão de Transação", `ID: ${id}`);
 
         return NextResponse.json({ message: "Transaction deleted" }, { status: 200 })
     } catch (error) {
@@ -65,11 +67,11 @@ export async function PUT(req: Request) {
         const updatedTransaction = await prisma.transaction.update({
             where: {
                 id,
-                userId: session.user.id,
+                userId: session?.user?.id,
             },
             data,
         })
-        await logAction(session.user.id, "Atualização de Transação", `Descrição: ${updatedTransaction.description}, Tipo: ${updatedTransaction.type}, Quantia: ${updatedTransaction.amount}`);
+        await logAction(session?.user?.id, "Atualização de Transação", `Descrição: ${updatedTransaction.description}, Tipo: ${updatedTransaction.type}, Quantia: ${updatedTransaction.amount}`);
 
         return NextResponse.json(updatedTransaction, { status: 200 })
     } catch (error) {

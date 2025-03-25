@@ -4,11 +4,12 @@ import bcrypt from "bcryptjs"
 import { getServerSession } from "next-auth"
 import { NextResponse } from "next/server"
 import { z } from "zod"
-import { authOptions } from "../[...nextauth]/route"
+import { authOptions } from "@/lib/auth"
+import { prisma } from "@/lib/prisma";
 
-const prisma = new PrismaClient()
 
 const registerSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(2),
   email: z.string().email(),
   password: z.string().min(6),
@@ -35,6 +36,7 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.create({
       data: {
+
         name,
         email,
         password: hashedPassword,
@@ -42,7 +44,7 @@ export async function POST(req: Request) {
       },
     })
     const session = await getServerSession(authOptions)
-    const userId = session.user.id ? session.user.id : user.id;
+    const userId = session?.user?.id ? session?.user?.id : user.id;
 
 
 
@@ -53,7 +55,7 @@ export async function POST(req: Request) {
       { status: 201 }
     )
   } catch (error) {
-    
+
     if (error instanceof z.ZodError) {
       console.log("Error details:", {
         message: (error as any).message,

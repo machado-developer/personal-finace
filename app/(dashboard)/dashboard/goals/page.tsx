@@ -82,8 +82,8 @@ export default function GoalsPage() {
     <div className="container mx-auto p-4 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Metas financeiras</h1>
-        <Button onClick={() => { setIsDialogOpen(true) }}>
-          <Plus className="mr-2 h-4 w-4" /> Create Goal
+        <Button className="bg-green-600" onClick={() => { setIsDialogOpen(true) }}>
+          <Plus className="mr-2 h-4 w-4" /> Criar Meta
         </Button>
       </div>
 

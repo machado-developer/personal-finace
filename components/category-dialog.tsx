@@ -93,7 +93,7 @@ export default function CategoryDialog({
             </Alert>
           )}
           <div className="space-y-2">
-           <input 
+           <Input 
 autoComplete="new-password"
               placeholder="Nome da Categoria"
               {...register("name")}

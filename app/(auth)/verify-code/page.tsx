@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,21 +21,7 @@ export default function VerifyCode() {
     }
   }, [timeLeft]);
 
-  useEffect(() => {
-    if (code.every((digit) => digit !== "")) {
-      validateCode();
-    }
-  }, [code]);
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const email = queryParams.get("email");
-    if (email) {
-      setEmail(email);
-    }
-  }, []);
-
-  const validateCode = async () => {
+  const validateCode = useCallback(async () => {
     try {
       const response = await fetch("/api/recovery/verify-code", {
         method: "POST",
@@ -57,7 +43,21 @@ export default function VerifyCode() {
     } catch (error) {
       setError("Erro de conexão. Verifique sua internet e tente novamente.");
     }
-  };
+  }, [code, email, router]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const email = queryParams.get("email");
+    if (email) {
+      setEmail(email);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (code.every((digit) => digit !== "")) {
+      validateCode();
+    }
+  }, [code, validateCode]);
 
   const handleChange = (index: number, value: string) => {
     if (!/^[0-9]?$/.test(value)) return;

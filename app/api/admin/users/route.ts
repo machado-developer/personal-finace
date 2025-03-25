@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client"
 import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
-import { authOptions } from "../../auth/[...nextauth]/route"
+import { authOptions } from "@/lib/auth";
+"@/lib/auth";
 
 const prisma = new PrismaClient()
 
@@ -17,10 +18,15 @@ export async function GET() {
     }
 
     const users = await prisma.user.findMany({
+      where: {
+        deletedAt: null
+      },
       select: {
         id: true,
         name: true,
         email: true,
+        actived: true,
+        deletedAt: true,
         role: true,
         createdAt: true,
       },

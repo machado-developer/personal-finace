@@ -1,6 +1,5 @@
-"use client";
-
-import { useEffect, useState } from "react";
+ "use client"
+import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,7 +13,7 @@ import Loading from "./loading-password";
 
 const resetPasswordSchema = z
     .object({
-        password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+        password: z.string().min(6, "A senha deve ter  no mínimo 6 caracteres"),
         confirmPassword: z.string(),
     })
     .refine((data) => data.password === data.confirmPassword, {
@@ -30,7 +29,6 @@ export default function ResetPassword() {
     const token = searchParams.get("token");
     const email = searchParams.get("email");
 
-
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(true); // Para verificar o token antes de mostrar a tela
@@ -43,15 +41,7 @@ export default function ResetPassword() {
         resolver: zodResolver(resetPasswordSchema),
     });
 
-    useEffect(() => {
-        if (!token && !email) {
-            router.push("/recovery-password");
-        } else {
-            validateToken();
-        }
-    }, [token, email]);
-
-    const validateToken = async () => {
+    const validateToken = useCallback(async () => {
         try {
             const response = await fetch("/api/recovery/verify-code", {
                 method: "POST",
@@ -67,7 +57,15 @@ export default function ResetPassword() {
         } catch {
             router.push("/recovery-password");
         }
-    };
+    }, [token, email, router]);
+
+    useEffect(() => {
+        if (!token || !email) {
+            router.push("/recovery-password");
+        } else {
+            validateToken();
+        }
+    }, [validateToken, token, email, router]);
 
     const onSubmit = async (data: ResetPasswordForm) => {
         try {
@@ -89,9 +87,7 @@ export default function ResetPassword() {
     };
 
     if (loading) {
-        return (
-            <Loading></Loading>
-        );
+        return <Loading />;
     }
 
     return (
@@ -99,7 +95,7 @@ export default function ResetPassword() {
             <HeaderNonAuth />
             <Card className="w-[25rem]">
                 <CardHeader>
-                    <h2 className="text-2xl font-bold text-center">Redefinir Senha</h2>
+                    <h2 className=" text-2xl font-bold text-center">Redefinir Senha</h2>
                 </CardHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <CardContent className="space-y-4">

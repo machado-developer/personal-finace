@@ -70,11 +70,7 @@ export default function GoalDialog({
     }
   }, [goal, reset]);
 
-  useEffect(() => {
-    if (goal) {
-      setValue("deadline", goal.deadline.split("T")[0]); // Remove a parte da hora
-    }
-  }, [setValue]);
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -89,6 +85,11 @@ export default function GoalDialog({
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    if (goal) {
+      setValue("deadline", goal.deadline.split("T")[0]); // Remove a parte da hora
+    }
+  }, [setValue, goal]);
   const onSubmit = async (data: GoalForm) => {
     try {
       const response = await fetch(
@@ -130,8 +131,8 @@ export default function GoalDialog({
           )}
           <div>
             <label>Nome da Meta</label>
-           <input 
-autoComplete="new-password"
+            <Input
+              autoComplete="new-password"
               placeholder="Nome da Meta"
               {...register("name")}
               className={errors.name ? "border-destructive" : ""}
@@ -162,8 +163,8 @@ autoComplete="new-password"
           </div>
           <div>
             <label>Valor Alvo</label>
-           <input 
-autoComplete="new-password"
+            <Input
+              autoComplete="new-password"
               type="number"
               step="0.01"
               placeholder="Valor Alvo"
@@ -174,8 +175,8 @@ autoComplete="new-password"
           </div>
           <div>
             <label>Valor Atual</label>
-           <input 
-autoComplete="new-password"
+            <Input
+              autoComplete="new-password"
               type="number"
               step="0.01"
               placeholder="Valor Atual"
@@ -186,8 +187,8 @@ autoComplete="new-password"
           </div>
           <div>
             <label>Data limite <br></br>{goal?.deadline && ` ( ${goal.deadline.split("T")[0]})`}</label>
-           <input 
-autoComplete="new-password"
+            <Input
+              autoComplete="new-password"
               type="date"
               {...register("deadline")}
               className={errors.deadline ? "border-destructive" : ""}

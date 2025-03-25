@@ -1,17 +1,16 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
@@ -19,7 +18,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const userSchema = z.object({
     id: z.string().optional(),
@@ -82,9 +82,8 @@ export default function UserDialog({
 
     const onSubmit = async (data: UserForm) => {
         try {
-            console.log("FORMULARIO", data);
             const response = await fetch(
-                isEditing ? `/api/users/${data.id}` : "/api/auth/register",
+                isEditing ? `/api/admin/users/${data.id}` : "/api/auth/register",
                 {
                     method: isEditing ? "PUT" : "POST",
                     headers: { "Content-Type": "application/json" },
@@ -93,7 +92,7 @@ export default function UserDialog({
             );
 
             if (!response.ok) {
-                const errorData = await response.json(); // Captura o erro do backend
+                const errorData = await response.json();
                 throw new Error(errorData.message || "Ocorreu um erro desconhecido");
             }
 
@@ -119,21 +118,21 @@ export default function UserDialog({
                             <AlertDescription>{error}</AlertDescription>
                         </Alert>
                     )}
-                   <input 
-autoComplete="new-password"
+                    <Input
+                        autoComplete="new-password"
                         placeholder="Nome"
                         {...register("name")}
                         className={errors.name ? "border-destructive" : ""}
                     />
-                   <input 
-autoComplete="new-password"
+                    <Input
+                        autoComplete="new-password"
                         type="email"
                         placeholder="Email"
                         {...register("email")}
                         className={errors.email ? "border-destructive" : ""}
                     />
-                   <input 
-autoComplete="new-password"
+                    <Input
+                        autoComplete="new-password"
                         type="password"
                         placeholder="Senha"
                         {...register("password")}

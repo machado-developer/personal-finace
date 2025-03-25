@@ -137,7 +137,7 @@ export default function TransactionDialog({
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-         <input 
+        <Input
 autoComplete="new-password"
             type="number"
             step="0.01"
@@ -179,7 +179,7 @@ autoComplete="new-password"
             </SelectContent>
           </Select>
 
-         <input 
+        <Input
 autoComplete="new-password"
             placeholder="Descrição"
             {...register("description")}
