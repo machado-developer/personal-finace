@@ -12,6 +12,7 @@ export default function VerifyCode() {
   const [error, setError] = useState("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -20,7 +21,6 @@ export default function VerifyCode() {
     }
   }, [timeLeft]);
 
-<<<<<<< HEAD
   const validateCode = useCallback(async () => {
     try {
       const response = await fetch("/api/recovery/verify-code", {
@@ -42,20 +42,6 @@ export default function VerifyCode() {
       }
     } catch (error) {
       setError("Erro de conexão. Verifique sua internet e tente novamente.");
-=======
-  useEffect(() => {
-    if (code.every((digit) => digit !== "")) {
-      validateCode();
-    }
-  }, [code]);
-
-  const validateCode = async () => {
-    const enteredCode = code.join("");
-    if (enteredCode === "12345" && timeLeft > 0) { // Simulando código válido
-      router.push("/reset-password");
-    } else {
-      setError("Código inválido ou expirado.");
->>>>>>> 10db4507f54f9486e5ffa40b14ade8f863fdd3e2
     }
   }, [code, email, router]);
 
@@ -78,7 +64,7 @@ export default function VerifyCode() {
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
-    
+
     if (value && index < 4) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -91,7 +77,7 @@ export default function VerifyCode() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 flex items-center justify-center min-h-screen bg-gradient-to-r from-green-600 to-green-800 text-white py-40">
       <Card className="w-96 p-6">
         <CardHeader className="text-center text-lg font-bold">Digite o código de verificação</CardHeader>
         <CardContent>
