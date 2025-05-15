@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
+import Image from 'next/image';
 
 function HeaderNonAuth() {
     const [scrolled, setScrolled] = useState(false);
@@ -23,12 +24,44 @@ function HeaderNonAuth() {
     }, []);
 
     return (
-        <header className={`fixed w-full top-0 z-50 transition-colors duration-300 ${scrolled ? 'bg-white shadow' : 'bg-gradient-to-r from-green-400 to-[#166D37]'}    py-2`}>
-            <div className="container mx-auto flex justify-between items-center">
-                <div className="logo">
-                    <Link href="/" className={` text-2xl font-bold text-gray-100 ${scrolled && "text-green-400"}`}>DiFP</Link>
+        <header className={`fixed w-full top-0 z-50  bg-transparent' ${scrolled && "bg-white"} align-items-center justify-content-center  py-6 ${scrolled ? 'bg-opacity-90' : 'bg-opacity-100'}`}>
+            <div className="container mx-auto flex justify-between  justify-center items-center">
+                <div className="logo mr-6">
+                    <Link href="/" className={` text-4xl font-bold text-gray-100`}>
+                        <Image src={"/img/logo.png"} alt="Logo" width={100} height={100} className="inline-block mr-2" />
+                    </Link>
                 </div>
-                <nav className="nav">
+                <nav className={`nav mr-4 w-full flex justify-between  items-center flex-end ${scrolled ? 'text-black' : 'text-white'} `}>
+
+                    <ul className={`flex space-x-5 justify-center w-full ${scrolled && "text-black"} text-sm md:text-base`}>
+                        <li>
+
+                            <Link href="/">Início</Link>
+
+                        </li>
+                        <li>
+
+                            <Link href="#sobre">Sobre</Link>
+
+                        </li>
+                        <li>
+
+                            <Link href="#porque">Beneficios</Link>
+
+                        </li>
+
+                        <li>
+
+                            <Link href="#funcionalidades">Funcionalidades</Link>
+
+                        </li>
+                        <li>
+
+                            <Link href="#depoimentos">Depoimentos</Link>
+
+                        </li>
+                       
+                    </ul>
                     <ul className="flex space-x-5 justify-center w-full">
 
                         <li>

@@ -6,8 +6,9 @@ import React, { useMemo, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { adminMenu, userMenu } from "../navmenu";
 import Loading from "../loading";
+import Image from "next/image";
 
- 
+
 const Skeleton = () => (
     <div className="animate-pulse space-y-4">
         <div className="h-6 bg-gray-300 rounded w-3/4"></div>
@@ -25,7 +26,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const role = session?.user?.role;
     const username = session?.user?.name;
-    const menuItems =  role === "ADMIN" ? adminMenu : userMenu
+    const menuItems = role === "ADMIN" ? adminMenu : userMenu
 
     return (
         <div className="flex min-h-screen">
@@ -34,7 +35,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
             <div className="flex flex-col flex-1 md:ml-64">
                 <Header username={username} setSidebarOpen={setSidebarOpen} />
-                <main className="flex-1 p-6 mt-8 overflow-auto pb-16">{status === "authenticated" ? children : <Skeleton />}</main>
+                <main className="flex-1 p-6 mt-8 overflow-auto pb-16 ">{status === "authenticated" ? children : <Skeleton />}</main>
                 <Footer role={role} />
             </div>
         </div>
@@ -47,8 +48,17 @@ const Sidebar: React.FC<{ role: string | null | undefined, menuItems: any[], sid
     return (
         <>
             {/* Sidebar fixa no desktop */}
-            <aside className="fixed top-0 left-0 w-64 h-screen p-4 bg-gradient-to-r from-green-600 to-[#166D37] text-white shadow-lg hidden md:block z-50">
-                <h2 className="text-xl font-bold">{role === "ADMIN" ? "Admin Panel" : "User Panel"}</h2>
+            <aside className="fixed top-0 left-0 w-64 h-screen p-4 bg-[#091426] text-white shadow-lg hidden md:block z-50 overflow-y-auto">
+                <div className="flex items-center justify-center mb-6">
+                    <div className="h-16 w-full rounded-[14px] flex items-center justify-center">
+                        <Image src="/img/logo.png" alt="Logo" width={60} height={40} className="h-12 w-auto" />
+                    </div>
+                </div>
+                {/* <div className="flex items-center   justify-between mb-6 ">
+                    <h2 className="text-xl text-white p-4 font-bold">{"PAINEL " + role}</h2>
+                </div> */}
+                <hr></hr>
+               
                 <nav className="mt-4 space-y-2">
                     {menuItems.map((item) => {
                         const isActive = pathname === item.link;
@@ -56,9 +66,9 @@ const Sidebar: React.FC<{ role: string | null | undefined, menuItems: any[], sid
                             <Link
                                 key={item.name}
                                 href={item.link}
-                                className={`flex items-center p-2 rounded-lg transition ${isActive
-                                        ? "bg-green-300 text-gray-900 font-bold"
-                                        : "hover:bg-green-200 hover:text-gray-800"
+                                className={`flex items-center p-2 rounded-lg font-light transition ${isActive
+                                    ? "bg-green-700 text-white font-light"
+                                    : "hover:bg-dark-hover hover:text-white"
                                     }`}
                             >
                                 {React.createElement(item.icon, { className: "w-5 h-5 mr-2" })}
@@ -86,8 +96,8 @@ const Sidebar: React.FC<{ role: string | null | undefined, menuItems: any[], sid
                                 key={item.name}
                                 href={item.link}
                                 className={`flex items-center p-2 rounded-lg transition ${isActive
-                                        ? "bg-green-300 text-gray-900 font-bold"
-                                        : "hover:bg-green-200 hover:text-gray-800"
+                                    ? "bg-green-300 text-gray-900 font-bold"
+                                    : "hover:bg-green-200 hover:text-gray-800"
                                     }`}
                                 onClick={() => setSidebarOpen(false)}
                             >

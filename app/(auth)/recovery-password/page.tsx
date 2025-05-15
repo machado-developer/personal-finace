@@ -32,7 +32,7 @@ export default function ForgotPassword() {
         setMessage("");
         setError("");
         try {
-            const response = await fetch("/api/recovery/send-code", {
+            const response = await fetch("/api/recovery/reset-password", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -43,7 +43,7 @@ export default function ForgotPassword() {
 
             setMessage("Se o email estiver cadastrado, enviaremos um código de verificação");
             setTimeout(() => {
-                router.push(`/verify-code?email=${data.email}`); // Correção aqui
+                router.push("/codigo-verificacao");
             }, 1500);
         } catch (err: any) {
             setError(err.message);

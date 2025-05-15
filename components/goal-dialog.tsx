@@ -147,9 +147,10 @@ export default function GoalDialog({
                 setValue("categoryId", value);
               }}
             >
+
               <SelectTrigger>
-                <SelectValue>
-                  {categories.find((cat) => cat.id === selectedCategory)?.name || "Selecione a categoria"}
+                <SelectValue placeholder="Selecione a categoria">
+                  {/* {categories.find((cat) => cat.id === selectedCategory)?.name || "Selecione a categoria"} */}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>

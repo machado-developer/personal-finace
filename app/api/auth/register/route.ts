@@ -44,7 +44,7 @@ export async function POST(req: Request) {
       },
     })
     const session = await getServerSession(authOptions)
-    const userId = session?.user?.id ? session?.user?.id : user.id;
+    const userId = user.id;
 
 
 

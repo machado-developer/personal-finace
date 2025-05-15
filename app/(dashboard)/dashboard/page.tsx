@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatCurrency, formatDate, formatHour } from "@/lib/utils";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { ArrowDownCircle, ArrowUpCircle, Download, Plus, Target, Wallet } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -57,6 +59,22 @@ const DashboardPage = () => {
     a.click();
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Relatorio Financeiro", 14, 10);
+    autoTable(doc, {
+      head: [["Tipo", "Montante", "Descrição", "Data", "Hora"]],
+      body: transactions.map(trans => [
+        trans.type,
+        trans.amount,
+        trans.description,
+        formatDate(new Date(trans.date)),
+        formatHour(new Date(trans.date))
+      ])
+    });
+    doc.save("relatorio.pdf");
+  };
+
   return (
     <>
       <div className="space-y-6">
@@ -69,41 +87,41 @@ const DashboardPage = () => {
             <Button variant="outline" onClick={exportData}>
               <Download className="mr-2 h-4 w-4" /> CSV
             </Button>
-            <Button variant="outline" onClick={exportData}>
+            <Button variant="outline" onClick={exportToPDF}>
               <Download className="mr-2 h-4 w-4" /> PDF
             </Button>
           </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-4">
-          <Card className="shadow-md border-1">
+          <Card className="shadow-md border-1 border-1 shadow-sm border border-gray-200 bg-green-300">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Saldo</CardTitle>
-              <Wallet className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-green-800" >Saldo</CardTitle>
+              <Wallet className="h-4 w-4 text-muted-foreground text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatCurrency(stats.balance)}</div>
+              <div className="text-2xl font-bold text-green-600">{formatCurrency(stats.balance)}</div>
             </CardContent>
           </Card>
-          <Card className="shadow-md border-1">
+          <Card className="shadow-md border-1 border-1 shadow-sm border border-gray-200 bg-green-500">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Receita</CardTitle>
-              <ArrowUpCircle className="h-4 w-4 text-green-500" />
+              <ArrowUpCircle className="h-4 w-4 text-green-800" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{formatCurrency(stats.totalIncome)}</div>
+              <div className="text-2xl font-bold text-green-900">{formatCurrency(stats.totalIncome)}</div>
             </CardContent>
           </Card>
-          <Card className="shadow-md border-1">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <Card className="shadow-md border-1 border-1 shadow-sm border border-gray-200 bg-red-500">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 ">
               <CardTitle className="text-sm font-medium">Despesas</CardTitle>
-              <ArrowDownCircle className="h-4 w-4 text-red-500" />
+              <ArrowDownCircle className="h-4 w-4 text-red-900" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-red-600">{formatCurrency(stats.totalExpenses)}</div>
+              <div className="text-2xl font-bold text-red-900">{formatCurrency(stats.totalExpenses)}</div>
             </CardContent>
           </Card>
-          <Card className="shadow-md border-1">
+          <Card className="shadow-md border-1 shadow-sm border border-gray-200 bg-yellow-500">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Metas Ativas</CardTitle>
               <Target className="h-4 w-4 text-muted-foreground" />
@@ -115,7 +133,7 @@ const DashboardPage = () => {
         </div>
 
         {/* Tabela de Transações Recentes */}
-        <Card className="shadow-md border-1">
+        <Card className="shadow-md mt-12 border-1">
           <CardHeader>
             <CardTitle className="text-lg font-medium">Transações Recentes</CardTitle>
           </CardHeader>
@@ -144,7 +162,7 @@ const DashboardPage = () => {
                   </TableCell>
                   <TableCell>
                     <span className={
-                      transaction.type==='DESPESA' ? "bg-red-200 text-red-700 px-2 py-1 rounded-md" : "bg-green-200 text-green-700 px-2 py-1 rounded-md"
+                      transaction.type === 'DESPESA' ? "bg-red-200 text-red-700 px-2 py-1 rounded-md" : "bg-green-200 text-green-700 px-2 py-1 rounded-md"
                     }
 
                     >

@@ -137,8 +137,8 @@ export default function TransactionDialog({
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-        <Input
-autoComplete="new-password"
+          <Input
+            autoComplete="new-password"
             type="number"
             step="0.01"
             placeholder="Valor"
@@ -179,8 +179,8 @@ autoComplete="new-password"
             </SelectContent>
           </Select>
 
-        <Input
-autoComplete="new-password"
+          <Input
+            autoComplete="new-password"
             placeholder="Descrição"
             {...register("description")}
             className={errors.description ? "border-destructive" : ""}
@@ -191,8 +191,8 @@ autoComplete="new-password"
                 ? "Atualizando..."
                 : "Adicionando..."
               : isEditing
-              ? "Atualizar Transação"
-              : "Adicionar Transação"}
+                ? "Atualizar Transação"
+                : "Adicionar Transação"}
           </Button>
         </form>
       </DialogContent>
