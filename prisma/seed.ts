@@ -5,14 +5,14 @@ const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 
 async function main() {
-    const hashedPassword = await bcrypt.hash("divaldo@admin", 10);
+    const hashedPassword = await bcrypt.hash("divaldo99", 10);
 
     const user = await prisma.user.upsert({
-        where: { email: "geral@difp.com" },
+        where: { email: "divaldo_miguel@gmal.com" },
         update: {}, // Se já existir, não atualiza nada
         create: {
-            name: "Admin",
-            email: "geral@difp.com",
+            name: "Divaldo Miguel",
+            email: "divaldo_miguel@gmal.com",
             password: hashedPassword, // Apenas se armazenar hash da senha
             role: "ADMIN", // Define o papel como ADMIN
         },

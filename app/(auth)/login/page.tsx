@@ -57,7 +57,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <HeaderNonAuth />
       {/* Hero Section */}
-      <section className="bg-gradient-to-r bg-[#091426] text-white py-40 min-h-screen">
+      <section className="bg-gradient-to-r bg-dark-base text-white py-40 min-h-screen">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
             <motion.h1

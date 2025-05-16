@@ -13,7 +13,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "./ui/select";
 
 const goalSchema = z.object({
   id: z.string().optional(),
@@ -31,6 +37,7 @@ interface GoalDialogProps {
   onOpenChange: (open: boolean) => void;
   onSuccess: () => void;
   isEditing?: boolean;
+  setEditing: (editing: boolean) => void;
   goal?: GoalForm;
 }
 
@@ -39,11 +46,16 @@ export default function GoalDialog({
   onOpenChange,
   onSuccess,
   isEditing = false,
+  setEditing,
   goal,
 }: GoalDialogProps) {
   const [error, setError] = useState("");
-  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | undefined>("");
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
+    []
+  );
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
+    ""
+  );
 
   const {
     register,
@@ -52,6 +64,7 @@ export default function GoalDialog({
     reset,
     setValue,
   } = useForm<GoalForm>({
+    resolver: zodResolver(goalSchema),
     defaultValues: {
       name: "",
       targetAmount: 0,
@@ -61,17 +74,45 @@ export default function GoalDialog({
     },
   });
 
-  console.log("METAS", goal);
-
+  // Carregamento dinâmico com base no modal
   useEffect(() => {
-    if (goal) {
-      reset(goal);
-      setSelectedCategory(goal.categoryId || "");
+    if (open) {
+      if (isEditing && goal) {
+        reset({
+          ...goal,
+          deadline: goal.deadline.split("T")[0],
+        });
+        setSelectedCategory(goal.categoryId || "");
+      } else {
+        reset({
+          name: "",
+          targetAmount: 0,
+          savedAmount: 0,
+          deadline: "",
+          categoryId: "",
+        });
+        setSelectedCategory("");
+      }
     }
-  }, [goal, reset]);
+  }, [open, isEditing, goal, reset]);
 
+  // Reset ao fechar o modal
+  useEffect(() => {
+    if (!open) {
+      reset({
+        name: "",
+        targetAmount: 0,
+        savedAmount: 0,
+        deadline: "",
+        categoryId: "",
+      });
+      setEditing(false);
+      setSelectedCategory("");
+      setError("");
+    }
+  }, [open, reset, setEditing]);
 
-
+  // Carrega categorias
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -85,11 +126,6 @@ export default function GoalDialog({
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    if (goal) {
-      setValue("deadline", goal.deadline.split("T")[0]); // Remove a parte da hora
-    }
-  }, [setValue, goal]);
   const onSubmit = async (data: GoalForm) => {
     try {
       const response = await fetch(
@@ -110,6 +146,8 @@ export default function GoalDialog({
       reset();
       onSuccess();
       onOpenChange(false);
+      setError("");
+      setEditing(false);
     } catch (error) {
       setError(error instanceof Error ? error.message : "Ocorreu um erro");
     }
@@ -137,7 +175,9 @@ export default function GoalDialog({
               {...register("name")}
               className={errors.name ? "border-destructive" : ""}
             />
-            {errors.name && <p className="text-destructive">{errors.name.message}</p>}
+            {errors.name && (
+              <p className="text-destructive">{errors.name.message}</p>
+            )}
           </div>
           <div>
             <Select
@@ -147,11 +187,8 @@ export default function GoalDialog({
                 setValue("categoryId", value);
               }}
             >
-
               <SelectTrigger>
-                <SelectValue placeholder="Selecione a categoria">
-                  {/* {categories.find((cat) => cat.id === selectedCategory)?.name || "Selecione a categoria"} */}
-                </SelectValue>
+                <SelectValue placeholder="Selecione a categoria" />
               </SelectTrigger>
               <SelectContent>
                 {categories.map((category) => (
@@ -172,7 +209,11 @@ export default function GoalDialog({
               {...register("targetAmount", { valueAsNumber: true })}
               className={errors.targetAmount ? "border-destructive" : ""}
             />
-            {errors.targetAmount && <p className="text-destructive">{errors.targetAmount.message}</p>}
+            {errors.targetAmount && (
+              <p className="text-destructive">
+                {errors.targetAmount.message}
+              </p>
+            )}
           </div>
           <div>
             <label>Valor Atual</label>
@@ -184,20 +225,40 @@ export default function GoalDialog({
               {...register("savedAmount", { valueAsNumber: true })}
               className={errors.savedAmount ? "border-destructive" : ""}
             />
-            {errors.savedAmount && <p className="text-destructive">{errors.savedAmount.message}</p>}
+            {errors.savedAmount && (
+              <p className="text-destructive">
+                {errors.savedAmount.message}
+              </p>
+            )}
           </div>
           <div>
-            <label>Data limite <br></br>{goal?.deadline && ` ( ${goal.deadline.split("T")[0]})`}</label>
+            <label>
+              Data limite
+              <br />
+              {isEditing && goal?.deadline && `(${goal.deadline.split("T")[0]})`}
+            </label>
             <Input
               autoComplete="new-password"
               type="date"
               {...register("deadline")}
               className={errors.deadline ? "border-destructive" : ""}
             />
-            {errors.deadline && <p className="text-destructive">{errors.deadline.message}</p>}
+            {errors.deadline && (
+              <p className="text-destructive">{errors.deadline.message}</p>
+            )}
           </div>
-          <Button type="submit" className="w-full bg-green-600 text-white" disabled={isSubmitting}>
-            {isSubmitting ? (isEditing ? "Atualizando..." : "Adicionando...") : isEditing ? "Atualizar Meta" : "Adicionar Meta"}
+          <Button
+            type="submit"
+            className="w-full bg-green-600 text-white"
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? isEditing
+                ? "Atualizando..."
+                : "Adicionando..."
+              : isEditing
+              ? "Atualizar Meta"
+              : "Adicionar Meta"}
           </Button>
         </form>
       </DialogContent>

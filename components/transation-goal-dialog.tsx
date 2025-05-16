@@ -49,6 +49,7 @@ export default function TransactionGoalDialog({ open, onOpenChange, goalId, onSu
             }
 
             reset()
+            setError("")
             onOpenChange(false)
             onSuccess() // Atualiza a lista de metas
         } catch (error) {

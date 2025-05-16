@@ -1,7 +1,6 @@
 "use client";
 
 import AboutSection from '@/components/about-section';
-import HeaderNonAuth from '@/components/header-non-auth';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -13,6 +12,7 @@ import Image from 'next/image';
 import ListFuncionalidades from '@/components/list-funcionalidades';
 import PorqueEscolher from '@/components/PortqueEscolher';
 import Depoimentos from '@/components/depoimentos';
+import HeaderNonAuth from '@/components/header-non-auth';
 export default function Home() {
   const testimonials = [
     {
@@ -31,8 +31,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-gray-900">
-      <HeaderNonAuth />
 
+      <HeaderNonAuth />
       {/* Hero Section */}
       <section className="relative bg-[#091426]  overflow-hidden min-h-screen flex items-center">
         <div className="absolute inset-0">

@@ -11,13 +11,13 @@ const funcionalidades = [
     {
         text: "Visão Geral Familiar",
         Icon: Home,
-        description: "Um painel único com todas as movimentações da família: entradas, saídas, metas e saldos de contas.",
+        description: "Um painel único com todas as movimentações: entradas, saídas, metas e saldos.",
     },
-    {
-        text: "Perfis Personalizados",
-        Icon: User,
-        description: "Cada membro da família pode ter um perfil com permissões específicas — ideal para casais, filhos e responsáveis financeiros.",
-    },
+    // {
+    //     text: "Perfis Personalizados",
+    //     Icon: User,
+    //     description: "Cada membro da família pode ter um perfil com permissões específicas — ideal para casais, filhos e responsáveis financeiros.",
+    // },
     {
         text: "Planejamento de Orçamento por Categoria",
         Icon: PieChart,
@@ -37,9 +37,10 @@ const funcionalidades = [
 
 export default function ListFuncionalidades() {
     return (
-        <section id="beneficios" className="py-20 bg-white min-h-screen">
+        <section  className="py-20 bg-white min-h-screen">
             <div className="container mx-auto px-4 max-w-5xl">
                 <motion.h2
+                id="funcionalidades"
                     className="text-3xl md:text-4xl font-bold text-center mb-12"
                     initial={{ opacity: 0, y: -50 }}
                     animate={{ opacity: 1, y: 0 }}

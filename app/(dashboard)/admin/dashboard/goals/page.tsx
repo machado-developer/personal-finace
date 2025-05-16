@@ -185,8 +185,7 @@ export default function GoalsPage() {
           onSuccess={fetchGoals}
         />
       )}
-
-      <GoalDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} isEditing={isEditing} goal={selectedGoal} onSuccess={fetchGoals} />
+      <GoalDialog open={isDialogOpen} setEditing={setIsEditing} onOpenChange={setIsDialogOpen} isEditing={isEditing} goal={selectedGoal} onSuccess={fetchGoals} />
     </div>
   )
 }

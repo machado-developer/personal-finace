@@ -24,7 +24,7 @@ function HeaderNonAuth() {
     }, []);
 
     return (
-        <header className={`fixed w-full top-0 z-50  bg-transparent' ${scrolled && "bg-white"} align-items-center justify-content-center  py-6 ${scrolled ? 'bg-opacity-90' : 'bg-opacity-100'}`}>
+        <header className={`fixed w-full top-0 z-50  bg-transparent' ${scrolled && "bg-white"} align-items-center justify-content-center  py-6 bg-opacity-100`}>
             <div className="container mx-auto flex justify-between  justify-center items-center">
                 <div className="logo mr-6">
                     <Link href="/" className={` text-4xl font-bold text-gray-100`}>
@@ -60,7 +60,7 @@ function HeaderNonAuth() {
                             <Link href="#depoimentos">Depoimentos</Link>
 
                         </li>
-                       
+
                     </ul>
                     <ul className="flex space-x-5 justify-center w-full">
 
@@ -68,7 +68,7 @@ function HeaderNonAuth() {
 
                             <Button
                                 size="lg"
-                                className="bg-transparent border border-white text-white hover:bg-yellow-500"
+                                className={` ${scrolled ? "bg-dark-base" : "bg-transparent"} border border-white text-white hover:bg-yellow-500`}
                                 asChild
                             >
                                 <Link href="/login">Entrar</Link>

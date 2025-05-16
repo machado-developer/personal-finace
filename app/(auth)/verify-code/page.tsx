@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import HeaderNonAuth from "@/components/header-non-auth";
 
 export default function VerifyCode() {
   const router = useRouter();
@@ -77,31 +78,37 @@ export default function VerifyCode() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 flex items-center justify-center min-h-screen bg-gradient-to-r from-green-600 to-green-800 text-white py-40">
-      <Card className="w-96 p-6">
-        <CardHeader className="text-center text-lg font-bold">Digite o código de verificação</CardHeader>
-        <CardContent>
-          <div className="flex justify-center space-x-2">
-            {code.map((digit, index) => (
-              <Input
-                key={index}
-                type="text"
-                maxLength={1}
-                value={digit}
-                onChange={(e) => handleChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                ref={(el) => (inputRefs.current[index] = el)}
-                className="w-12 h-12 text-center text-xl border rounded-md focus:ring-2 focus:ring-green-600"
-              />
-            ))}
-          </div>
-          {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
-          <p className="text-sm text-gray-500 text-center mt-4">Expira em {timeLeft}s</p>
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <Button onClick={validateCode} className="w-full bg-green-600 hover:bg-green-700">Confirmar</Button>
-        </CardFooter>
-      </Card>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-dark-base to-dark-card text-white py-40">
+      <HeaderNonAuth />
+     
+        
+        <Card className="w-96 p-6">
+          <CardHeader className="text-center text-lg font-bold">Digite o código de verificação</CardHeader>
+          <CardContent>
+            <div className="flex justify-center space-x-2">
+              {code.map((digit, index) => (
+                <Input
+                  key={index}
+                  type="text"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handleChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  ref={(el) => (inputRefs.current[index] = el)}
+                  className="w-12 h-12 text-center text-xl border rounded-md focus:ring-2 focus:ring-green-600"
+                />
+              ))}
+            </div>
+            {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
+            <p className="text-sm text-gray-500 text-center mt-4">Expira em {timeLeft}s</p>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <Button onClick={validateCode} className="w-full bg-green-600 hover:bg-green-700">Confirmar</Button>
+          </CardFooter>
+        </Card>
     </div>
+   
+    
+
   );
 }

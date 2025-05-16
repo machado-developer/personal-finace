@@ -53,7 +53,7 @@ export default function ForgotPassword() {
     return (
         <div className="flex flex-col min-h-screen">
             <HeaderNonAuth />
-            <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-40 min-h-screen">
+            <section className="bg-gradient-to-r from-dark-base to-dark-card text-white py-40 min-h-screen">
                 <div className="container mx-auto px-4 flex justify-center">
                     <Card className="w-[25rem] min-h-[200px]">
                         <CardHeader className="space-y-1 text-center">

@@ -91,7 +91,7 @@ export default function ResetPassword() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-600 to-green-800 text-white py-40">
+        <div className="flex items-center justify-center min-h-screenbg-gradient-to-r from-dark-base to-dark-card text-white py-40">
             <HeaderNonAuth />
             <Card className="w-[25rem]">
                 <CardHeader>

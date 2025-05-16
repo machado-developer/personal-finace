@@ -78,7 +78,7 @@ const DashboardPage = () => {
   return (
     <>
       <div className="space-y-6">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-12">
           <h1 className="text-3xl font-bold">Dashboard</h1>
           <div className="space-x-4">
             <Button className="bg-gradient-to-r from-green-500 to-green-700 text-white" onClick={() => setIsDialogOpen(true)}>

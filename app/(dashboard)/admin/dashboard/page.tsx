@@ -75,20 +75,20 @@ const AdminDashboard = () => {
   const COLORS = ["#22C55E", "#FFA500"];
 
   const barData = [
-    { name: "Metas", value: stats.totalGoals, color:"#4caf50" },
-    { name: "Investimentos", value: stats.totalBudgets, color:"#ff6b6b" },
+    { name: "Metas", value: stats.totalGoals, color: "#4caf50" },
+    { name: "Investimentos", value: stats.totalBudgets, color: "#ff6b6b" },
   ];
 
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Painel Administrativo</h1>
       <div className="grid gap-4 md:grid-cols-4">
-        {[{ title: "Usuários Registrados", value: stats.totalUsers, Icon: Users, color: "text-blue-500" },
-        { title: "Receitas Totais", value: formatCurrency(stats.totalRevenue), Icon: DollarSign, color: "text-green-500" },
-        { title: "Despesas Totais", value: formatCurrency(stats.totalExpenses), Icon: CreditCard, color: "text-red-500" },
-        { title: "Transações Totais", value: stats.totalTransactions, Icon: BarChart2, color: "text-yellow-500" },
-        ].map(({ title, value, Icon, color }, index) => (
-          <Card key={index} className="shadow-lg border border-gray-200">
+        {[{ title: "Usuários Registrados", bg: "border-gray-200 bg-blue-300", value: stats.totalUsers, Icon: Users, color: "text-blue-500  " },
+        { title: "Receitas Totais", bg: "border-gray-200 bg-green-300", value: formatCurrency(stats.totalRevenue), Icon: DollarSign, color: "text-green-500 " },
+        { title: "Despesas Totais",bg:"border-gray-200 bg-red-300", value: formatCurrency(stats.totalExpenses), Icon: CreditCard, color: "text-red-500" },
+        { title: "Transações Totais", bg: "border-gray-200 bg-yellow-300", value: stats.totalTransactions, Icon: BarChart2, color: "text-yellow-500" },
+        ].map(({ title, value, Icon, color, bg }, index) => (
+          <Card key={index} className={`shadow-lg border border-gray-200 ${bg}`}>
             <CardHeader className="flex items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">{title}</CardTitle>
               <Icon className={`h-6 w-6 ${color}`} />
@@ -181,7 +181,7 @@ const AdminDashboard = () => {
 
         </div>
       </div>
-      
+
     </div>
   );
 };

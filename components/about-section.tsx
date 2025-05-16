@@ -48,7 +48,7 @@ export default function AboutSection() {
             </section>
 
             <section id='porque' className="bg-green-900 py-4 px-4 text-white border-b-2 border-gray-200">
-                <div id="funcionalidades" className="max-w-6xl mx-auto mt-32 h-screen">
+                <div className="max-w-6xl mx-auto mt-32 h-screen">
                     <div className="text-left mb-6">
                         <h2 className="text-5xl font-bold mb-4">
                             O que você vai encontrar:
