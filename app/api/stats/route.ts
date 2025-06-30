@@ -11,7 +11,7 @@ export async function GET() {
 
     if (!session?.user) {
       return NextResponse.json(
-        { message: "Unauthorized" },
+        { message: "Nao autorizado" },
         { status: 401 }
       )
     }
@@ -88,7 +88,7 @@ export async function GET() {
     console.log("ERRO", JSON.stringify(error));
 
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Erro interno" },
       { status: 500 }
     )
   }

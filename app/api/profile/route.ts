@@ -10,7 +10,7 @@ export async function GET() {
 
         if (!session?.user) {
             return NextResponse.json(
-                { message: "Unauthorized" },
+                { message: "Nao autorizado" },
                 { status: 401 }
             );
         }

@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 
     if (!session?.user || !session?.user?.id) {
       return NextResponse.json(
-        { message: "Unauthorized" },
+        { message: "Nao autorizado" },
         { status: 401 }
       );
     }
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ categories });
   } catch (error) {
-    console.error("Error details:", {
+    console.error("Descrição do erro:", {
       message: (error as any).message,
       stack: (error as any).stack,
       name: (error as any).name,
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Erro interno" },
       { status: 500 }
     );
   }
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
 
     if (!session?.user) {
       return NextResponse.json(
-        { message: "Unauthorized" },
+        { message: "Nao autorizado" },
         { status: 401 }
       )
     }
@@ -86,14 +86,14 @@ export async function POST(req: Request) {
         { status: 400 }
       )
     }
-    console.log("Error details:", {
+    console.log("Descrição do erro:", {
       message: (error as any).message,
       stack: (error as any).stack,
       name: (error as any).name,
       ...(error as any),
     });
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Erro interno" },
       { status: 500 }
     )
   }

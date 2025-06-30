@@ -1,5 +1,4 @@
 "use client";
-
 import HeaderNonAuth from '@/components/header-non-auth';
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from '@/components/ui/button';

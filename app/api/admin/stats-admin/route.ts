@@ -13,7 +13,7 @@ export async function GET() {
 
     if (!session?.user || session.user.role !== "ADMIN") {
       return NextResponse.json(
-        { message: "Unauthorized" },
+        { message: "Nao autorizado" },
         { status: 401 }
       );
     }
@@ -82,14 +82,14 @@ export async function GET() {
       chartData,
     });
   } catch (error) {
-    console.error("Error details:", {
+    console.error("Descrição do erro:", {
       message: (error as any).message,
       stack: (error as any).stack,
       name: (error as any).name,
       ...(error as any),
     });
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Erro interno" },
       { status: 500 }
     );
   }

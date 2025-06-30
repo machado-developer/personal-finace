@@ -11,7 +11,7 @@ export async function PUT(req: Request,) {
 
         if (!session?.user) {
             return NextResponse.json(
-                { message: "Unauthorized" },
+                { message: "Nao autorizado" },
                 { status: 401 }
             );
         }

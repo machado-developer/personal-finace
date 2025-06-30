@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { User } from 'lucide-react';
 
 const profileSchema = z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
@@ -72,9 +73,15 @@ const ProfilePage: React.FC = () => {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 justify-center items-center p-6">
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold">Perfil</h1>
+
+                <div>
+                    <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
+                        <User className="w-24 h-24 text-gray-500" />
+                    </div>
+                </div>
             </div>
 
             {/* Mensagem de sucesso */}
@@ -84,7 +91,7 @@ const ProfilePage: React.FC = () => {
                 </div>
             )}
 
-            <div className="bg-white rounded-lg p-6 w-full max-w-md">
+            <div className="bg-white rounded-lg p-6 w-full items-center">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
@@ -140,7 +147,7 @@ const ProfilePage: React.FC = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
+                        className="w-full bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm transition duration-200"
                     >
                         Salvar
                     </button>

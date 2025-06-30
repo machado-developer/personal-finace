@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
                         role: user.role,
                     };
                 } catch (error) {
-                    console.error("Error during authorization:", error);
+                    console.error("Erro durante a autorização:", error);
                     return null;
                 }
             },

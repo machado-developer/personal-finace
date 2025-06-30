@@ -2,11 +2,9 @@ import { CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const beneficios = [
-    "Acompanhar todos os gastos da família em um só painel",
-    "Definir orçamentos por categoria ou por membro",
-    "Criar metas familiares e acompanhar o progresso",
-    "Controlar contas, cartões, despesas fixas e extras com clareza",
-    "Compartilhar responsabilidades financeiras com praticidade"
+    "Acompanhar todos os gastos  em um só painel",
+    "Criar metas e acompanhar o progresso",
+    "Controlar , despesas e receitas  com clareza",
 ];
 
 export default function ListaBeneficios() {

@@ -11,7 +11,7 @@ export async function GET() {
 
     if (!session?.user || session.user.role !== "ADMIN") {
       return NextResponse.json(
-        { message: "Unauthorized" },
+        { message: "Nao autorizado" },
         { status: 401 }
       )
     }

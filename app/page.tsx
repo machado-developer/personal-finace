@@ -102,7 +102,7 @@ export default function Home() {
       {/* Benefícios e Vantagens */}
       <PorqueEscolher></PorqueEscolher>
 
-      <Depoimentos></Depoimentos>
+      {/* <Depoimentos></Depoimentos> */}
       {/* Chamada para ação */}
       <section id="acao" className="py-20 bg-[#091426] text-white text-left  relative">
         <div className="container mx-auto px-4">

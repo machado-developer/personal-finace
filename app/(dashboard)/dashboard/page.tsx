@@ -94,7 +94,7 @@ const DashboardPage = () => {
         </div>
 
         <div className="grid gap-4 md:grid-cols-4">
-          <Card className="shadow-md border-1 border-1 shadow-sm border border-gray-200 bg-green-300">
+          <Card className="shadow-md border-1 border-1 shadow-sm border border-gray-200 bg-white">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-green-800" >Saldo</CardTitle>
               <Wallet className="h-4 w-4 text-muted-foreground text-green-600" />
@@ -103,7 +103,7 @@ const DashboardPage = () => {
               <div className="text-2xl font-bold text-green-600">{formatCurrency(stats.balance)}</div>
             </CardContent>
           </Card>
-          <Card className="shadow-md border-1 border-1 shadow-sm border border-gray-200 bg-green-500">
+          <Card className="shadow-md border-1 border-1 shadow-sm border border-gray-200 bg-white">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Receita</CardTitle>
               <ArrowUpCircle className="h-4 w-4 text-green-800" />
@@ -112,7 +112,7 @@ const DashboardPage = () => {
               <div className="text-2xl font-bold text-green-900">{formatCurrency(stats.totalIncome)}</div>
             </CardContent>
           </Card>
-          <Card className="shadow-md border-1 border-1 shadow-sm border border-gray-200 bg-red-500">
+          <Card className="shadow-md border-1 border-1 shadow-sm border border-gray-200 bg-white">
             <CardHeader className="flex flex-row items-center justify-between pb-2 ">
               <CardTitle className="text-sm font-medium">Despesas</CardTitle>
               <ArrowDownCircle className="h-4 w-4 text-red-900" />
@@ -121,7 +121,7 @@ const DashboardPage = () => {
               <div className="text-2xl font-bold text-red-900">{formatCurrency(stats.totalExpenses)}</div>
             </CardContent>
           </Card>
-          <Card className="shadow-md border-1 shadow-sm border border-gray-200 bg-yellow-500">
+          <Card className="shadow-md border-1 shadow-sm border border-gray-200 bg-white">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Metas Ativas</CardTitle>
               <Target className="h-4 w-4 text-muted-foreground" />

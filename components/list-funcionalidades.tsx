@@ -26,7 +26,7 @@ const funcionalidades = [
     {
         text: "Metas Compartilhadas",
         Icon: Target,
-        description: "Crie objetivos financeiros como “viagem em família” ou “compra de carro” e acompanhem juntos o progresso.",
+        description: "Crie objetivos financeiros como “viagem” ou “compra de carro” e acompanhem juntos o progresso.",
     },
     {
         text: "Relatórios Detalhados",

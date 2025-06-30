@@ -10,7 +10,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ type
 
         if (!session?.user) {
             return NextResponse.json(
-                { message: "Unauthorized" },
+                { message: "Nao autorizado" },
                 { status: 401 }
             );
         }
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ type
 
     } catch (error) {
         return NextResponse.json(
-            { message: "Internal server error" },
+            { message: "Erro interno" },
             { status: 500 }
         );
     }

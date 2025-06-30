@@ -18,7 +18,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
         return Response.json(data, { status: 200 });
     } catch (error) {
-        return Response.json({ error: 'Internal Server Error' }, { status: 500 });
+        return Response.json({ error: 'Erro interno' }, { status: 500 });
     } finally {
         await prisma.$disconnect();
     }

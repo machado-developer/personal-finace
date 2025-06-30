@@ -11,7 +11,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
         const prisma = new PrismaClient()
         const session = await getServerSession(authOptions);
         if (!session) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ message: "Nao autorizado" }, { status: 401 });
         }
         const { amount } = await req.json();
         const id = (await params).id; // Await the params promise to get the id

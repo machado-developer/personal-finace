@@ -51,33 +51,33 @@ export async function POST(req: Request) {
     await logAction(userId, "Novo usuario registado", `nome: ${user.name}, perfil: ${role.toLocaleLowerCase()}`);
 
     return NextResponse.json(
-      { message: "User registered successfully" },
+      { message: "Registrado com sucesso" },
       { status: 201 }
     )
   } catch (error) {
 
     if (error instanceof z.ZodError) {
-      console.log("Error details:", {
+      console.log("Descrição do erro:", {
         message: (error as any).message,
         stack: (error as any).stack,
         name: (error as any).name,
         ...(error as any),
       });
       return NextResponse.json(
-        { message: "Invalid input data" },
+        { message: "Dados invalido" },
         { status: 400 }
       )
     }
 
 
-    console.log("Error details:", {
+    console.log("Descrição do erro:", {
       message: (error as any).message,
       stack: (error as any).stack,
       name: (error as any).name,
       ...(error as any),
     });
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Erro interno" },
       { status: 500 }
     )
   }

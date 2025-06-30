@@ -24,14 +24,14 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 const transactionSchema = z.object({
   id: z.string().optional(),
   amount: z.coerce.number().positive(),
-  type: z.enum(["RECEITA", "DESPESA"]),
+  type: z.enum(["RECEITA", "DESPESA"]).default("RECEITA"),
   description: z.string().default("N/A"),
   categoryId: z.string().min(1).optional(),
 });
 
 type TransactionForm = z.infer<typeof transactionSchema>;
 
-interface TransactionDialogProps {
+interface ReceitaDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: () => void;
@@ -45,13 +45,13 @@ interface TransactionDialogProps {
   };
 }
 
-export default function TransactionDialog({
+export default function ReceitaDialog({
   open,
   onOpenChange,
   onSuccess,
   isEditing = false,
   transaction,
-}: TransactionDialogProps) {
+}: ReceitaDialogProps) {
   const [error, setError] = useState("");
   const [categories, setCategories] = useState<
     { id: string; name: string; type: "RECEITA" | "DESPESA" }[]
@@ -68,7 +68,6 @@ export default function TransactionDialog({
     resolver: zodResolver(transactionSchema),
     defaultValues: transaction || {
       amount: 0,
-      type: "RECEITA",
       description: "",
       categoryId: "",
     },
@@ -111,7 +110,7 @@ export default function TransactionDialog({
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Falha ao atualizar transação" : "Falha ao criar transação"
+          isEditing ? "Falha ao atualizar Receita" : "Falha ao criar Receita"
         );
       }
 
@@ -128,7 +127,7 @@ export default function TransactionDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Editar Transação" : "Adicionar Transação"}
+            {isEditing ? "Editar Receita" : "Adicionar Receita"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -146,19 +145,7 @@ export default function TransactionDialog({
             className={errors.amount ? "border-destructive" : ""}
           />
 
-          {/* Tipo de Transação */}
-          <Select
-            value={selectedType}
-            onValueChange={(value) => setValue("type", value as "RECEITA" | "DESPESA")}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Selecione o tipo" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="RECEITA">Receita</SelectItem>
-              <SelectItem value="DESPESA">Despesa</SelectItem>
-            </SelectContent>
-          </Select>
+
 
           {/* Categoria filtrada pelo tipo */}
           <Select
@@ -191,8 +178,8 @@ export default function TransactionDialog({
                 ? "Atualizando..."
                 : "Adicionando..."
               : isEditing
-                ? "Atualizar Transação"
-                : "Adicionar Transação"}
+                ? "Atualizar Receita"
+                : "Adicionar Receita"}
           </Button>
         </form>
       </DialogContent>

@@ -8,7 +8,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
         const session = await getServerSession(authOptions);
 
         if (!session?.user || session.user.role !== "ADMIN") {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ message: "Nao autorizado" }, { status: 401 });
         }
         const id = (await params).id; // Await the params promise to get the id
         const status = (await params).status; // Await the params promise to get the status
@@ -35,12 +35,12 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
         return NextResponse.json({ message: "sucesso" }, { status: 200 });
     } catch (error) {
-        console.error("Error details:", {
+        console.error("Descrição do erro:", {
             message: (error as any).message,
             stack: (error as any).stack,
             name: (error as any).name,
             ...(error as any),
         });
-        return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+        return NextResponse.json({ message: "Erro interno" }, { status: 500 });
     }
 }

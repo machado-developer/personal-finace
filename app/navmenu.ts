@@ -32,8 +32,8 @@ const adminMenu = [
 const userMenu = [
     { name: "Home", link: "/dashboard", icon: Home },
     { name: "Transações", link: "/dashboard/transactions", icon: Receipt },
-    { name: "Despesas", link: "/dashboard/transactions?type=despesa", icon: Coins },
-    { name: "Receitas", link: "/dashboard/transactions?type=receita", icon: DollarSign },
+    { name: "Despesas", link: "/dashboard/despesas", icon: Coins },
+    { name: "Receitas", link: "/dashboard/receitas", icon: DollarSign },
     { name: "Metas Financeiras", link: "/dashboard/goals", icon: Goal },
     { name: "Gerir Categorias", link: "/dashboard/categories", icon: ListCollapse },
     { name: "Perfil", link: "/dashboard/profile", icon: User },

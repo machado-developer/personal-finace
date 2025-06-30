@@ -20,7 +20,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
         if (!session?.user) {
             return NextResponse.json(
-                { message: "Unauthorized" },
+                { message: "Nao autorizado" },
                 { status: 401 }
             );
         }
@@ -47,14 +47,14 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
                 { status: 400 }
             );
         }
-        console.error("Error details:", {
+        console.error("Descrição do erro:", {
             message: (error as any).message,
             stack: (error as any).stack,
             name: (error as any).name,
             ...(error as any),
         });
         return NextResponse.json(
-            { message: "Internal server error" },
+            { message: "Erro interno" },
             { status: 500 }
         );
     }
@@ -66,7 +66,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
         if (!session?.user) {
             return NextResponse.json(
-                { message: "Unauthorized" },
+                { message: "Nao autorizado" },
                 { status: 401 }
             );
         }
@@ -80,14 +80,14 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
         return NextResponse.json({ message: "Category deleted" }, { status: 200 });
     } catch (error) {
-        console.log("Error details:", {
+        console.log("Descrição do erro:", {
             message: (error as any).message,
             stack: (error as any).stack,
             name: (error as any).name,
             ...(error as any),
         });
         return NextResponse.json(
-            { message: "Internal server error" },
+            { message: "Erro interno" },
             { status: 500 }
         );
     }

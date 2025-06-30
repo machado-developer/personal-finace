@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ message: "Nao autorizado" }, { status: 401 });
     }
 
     const body = await req.json();
@@ -74,7 +74,7 @@ export async function POST(req: Request) {
     return NextResponse.json(goal, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      console.error("Error details:", {
+      console.error("Descrição do erro:", {
         message: (error as any).message,
         stack: (error as any).stack,
         name: (error as any).name,
@@ -83,13 +83,13 @@ export async function POST(req: Request) {
 
       return NextResponse.json({ message: "Invalid input data" }, { status: 400 });
     }
-    console.error("Error details:", {
+    console.error("Descrição do erro:", {
       message: (error as any).message,
       stack: (error as any).stack,
       name: (error as any).name,
       ...(error as any),
     });
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ message: "Erro interno" }, { status: 500 });
   }
 }
 
@@ -99,7 +99,7 @@ export async function GET() {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ message: "Nao autorizado" }, { status: 401 });
     }
 
     const goals = await prisma.goal.findMany({
@@ -109,6 +109,6 @@ export async function GET() {
 
     return NextResponse.json({ goals });
   } catch (error) {
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ message: "Erro interno" }, { status: 500 });
   }
 }

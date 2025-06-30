@@ -23,7 +23,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
 
         if (!session?.user) {
             return NextResponse.json(
-                { message: "Unauthorized" },
+                { message: "Nao autorizado" },
                 { status: 401 }
             )
         }
@@ -44,7 +44,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
         return NextResponse.json({ message: "Transaction deleted" }, { status: 200 })
     } catch (error) {
         return NextResponse.json(
-            { message: "Internal server error" },
+            { message: "Erro interno" },
             { status: 500 }
         )
     }
@@ -56,7 +56,7 @@ export async function PUT(req: Request) {
 
         if (!session?.user) {
             return NextResponse.json(
-                { message: "Unauthorized" },
+                { message: "Nao autorizado" },
                 { status: 401 }
             )
         }
@@ -82,7 +82,7 @@ export async function PUT(req: Request) {
             )
         }
         return NextResponse.json(
-            { message: "Internal server error" },
+            { message: "Erro interno" },
             { status: 500 }
         )
     }

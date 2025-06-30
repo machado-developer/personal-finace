@@ -43,7 +43,7 @@ export default function Home() {
 
       router.push("/login")
     } catch (error) {
-      setError(error instanceof Error ? error.message : "An error occurred")
+      setError(error instanceof Error ? error.message : "Ocorreu um erro")
     }
   }
 

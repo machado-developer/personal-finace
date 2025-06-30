@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
     // Verifica se o e-mail está registrado
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) return NextResponse.json({ error: "Se o email estiver cadastrado, enviaremos um código" }, { status: 400 });
+    if (!user) return NextResponse.json({ error: "Ops! 🤦‍♂️. Parece que este email não esta registrado, mas se o email estiver cadastrado, enviaremos um código" }, { status: 400 });
 
     // Gera código de 5 dígitos
     const token = Math.floor(10000 + Math.random() * 90000).toString();
@@ -15,6 +15,6 @@ export async function POST(req: NextRequest) {
 
     console.log(`Código enviado para ${email}: ${token}`); // Simula envio de email
 
-    return NextResponse.json({ message: "Código enviado com sucesso" }, { status: 200 });
+    return NextResponse.json({ message: "Código enviado com sucesso:" + token }, { status: 200 });
 }
 

@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import { ArrowLeft } from 'lucide-react';
 
 const forgotPasswordSchema = z.object({
     email: z.string().email("Digite um email válido")
@@ -26,7 +27,9 @@ export default function ForgotPassword() {
         resolver: zodResolver(forgotPasswordSchema),
     });
 
-
+    const handleGoBack = () => {
+        router.back();
+    };
 
     const onSubmit = async (data: ForgotPasswordForm) => {
         setMessage("");
@@ -39,7 +42,7 @@ export default function ForgotPassword() {
             });
 
             const result = await response.json();
-            if (!response.ok) throw new Error(result.message || "Erro ao solicitar recuperação");
+            if (!response.ok) throw new Error(result?.error || "Erro ao solicitar recuperação");
 
             setMessage("Se o email estiver cadastrado, enviaremos um código de verificação");
             setTimeout(() => {
@@ -87,9 +90,10 @@ export default function ForgotPassword() {
                                     />
                                     {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
                                 </div>
-                                <Button type="submit" className="w-full bg-gradient-to-r from-green-600 to-green-800" disabled={isSubmitting}>
+                                <Button type="submit" className="w-full bg-gradient-to-r from-dark-base to-green-900" disabled={isSubmitting}>
                                     {isSubmitting ? "Enviando..." : "Enviar Código"}
                                 </Button>
+                                <ArrowLeft className='cursor-pointer' onClick={handleGoBack}></ArrowLeft>
                             </CardContent>
                         </form>
                     </Card>

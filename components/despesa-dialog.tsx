@@ -24,14 +24,14 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 const transactionSchema = z.object({
   id: z.string().optional(),
   amount: z.coerce.number().positive(),
-  type: z.enum(["RECEITA", "DESPESA"]),
+  type: z.enum(["RECEITA", "DESPESA"]).default("DESPESA"),
   description: z.string().default("N/A"),
   categoryId: z.string().min(1).optional(),
 });
 
-type TransactionForm = z.infer<typeof transactionSchema>;
+type DespesaForm = z.infer<typeof transactionSchema>;
 
-interface TransactionDialogProps {
+interface DespesaDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: () => void;
@@ -45,13 +45,13 @@ interface TransactionDialogProps {
   };
 }
 
-export default function TransactionDialog({
+export default function DespesaDialog({
   open,
   onOpenChange,
   onSuccess,
   isEditing = false,
   transaction,
-}: TransactionDialogProps) {
+}: DespesaDialogProps) {
   const [error, setError] = useState("");
   const [categories, setCategories] = useState<
     { id: string; name: string; type: "RECEITA" | "DESPESA" }[]
@@ -64,7 +64,7 @@ export default function TransactionDialog({
     reset,
     setValue,
     control,
-  } = useForm<TransactionForm>({
+  } = useForm<DespesaForm>({
     resolver: zodResolver(transactionSchema),
     defaultValues: transaction || {
       amount: 0,
@@ -94,11 +94,11 @@ export default function TransactionDialog({
     if (isEditing && transaction) {
       reset(transaction);
     } else {
-      reset({ amount: 0, type: "RECEITA", description: "", categoryId: "" });
+      reset({ amount: 0, type: "DESPESA", description: "", categoryId: "" });
     }
   }, [isEditing, transaction, reset]);
 
-  const onSubmit = async (data: TransactionForm) => {
+  const onSubmit = async (data: DespesaForm) => {
     try {
       const response = await fetch(
         isEditing ? `/api/transations/${data.id}` : "/api/transations",
@@ -111,7 +111,7 @@ export default function TransactionDialog({
 
       if (!response.ok) {
         throw new Error(
-          isEditing ? "Falha ao atualizar transação" : "Falha ao criar transação"
+          isEditing ? "Falha ao atualizar Despesa" : "Falha ao criar Despesa"
         );
       }
 
@@ -128,7 +128,7 @@ export default function TransactionDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Editar Transação" : "Adicionar Transação"}
+            {isEditing ? "Editar Despesa" : "Adicionar Despesa"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -146,19 +146,7 @@ export default function TransactionDialog({
             className={errors.amount ? "border-destructive" : ""}
           />
 
-          {/* Tipo de Transação */}
-          <Select
-            value={selectedType}
-            onValueChange={(value) => setValue("type", value as "RECEITA" | "DESPESA")}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Selecione o tipo" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="RECEITA">Receita</SelectItem>
-              <SelectItem value="DESPESA">Despesa</SelectItem>
-            </SelectContent>
-          </Select>
+
 
           {/* Categoria filtrada pelo tipo */}
           <Select
@@ -191,8 +179,8 @@ export default function TransactionDialog({
                 ? "Atualizando..."
                 : "Adicionando..."
               : isEditing
-                ? "Atualizar Transação"
-                : "Adicionar Transação"}
+                ? "Atualizar Despesa"
+                : "Adicionar Despesa"}
           </Button>
         </form>
       </DialogContent>

@@ -24,7 +24,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ type
 
     if (!session?.user) {
       return NextResponse.json(
-        { message: "Unauthorized" },
+        { message: "Nao autorizado" },
         { status: 401 }
       );
     }
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ type
 
   } catch (error) {
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Erro interno" },
       { status: 500 }
     );
   }
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ typ
 
     if (!session?.user) {
       return NextResponse.json(
-        { message: "Unauthorized" },
+        { message: "Nao autorizado" },
         { status: 401 }
       );
     }
@@ -91,14 +91,14 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ typ
         { status: 400 }
       );
     }
-    console.error("Error details:", {
+    console.error("Descrição do erro:", {
       message: (error as any).message,
       stack: (error as any).stack,
       name: (error as any).name,
       ...(error as any),
     });
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Erro interno" },
       { status: 500 }
     );
   }

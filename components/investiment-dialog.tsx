@@ -84,8 +84,8 @@ export default function DialogInvestment({ open, onOpenChange, onSuccess }: Inve
                             <AlertDescription>{error}</AlertDescription>
                         </Alert>
                     )}
-                   <input 
-autoComplete="new-password" placeholder="Nome do Investimento" {...register("name")} className={errors.name ? "border-destructive" : ""} />
+                    <input
+                        autoComplete="new-password" placeholder="Nome do Investimento" {...register("name")} className={errors.name ? "border-destructive" : ""} />
                     {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
 
                     <Select onValueChange={(value) => setValue("type", value as "Ações" | "CDB" | "Tesouro Direto" | "Fundos")}>
@@ -101,19 +101,19 @@ autoComplete="new-password" placeholder="Nome do Investimento" {...register("nam
                     </Select>
                     {errors.type && <p className="text-sm text-destructive">{errors.type.message}</p>}
 
-                   <input 
-autoComplete="new-password" type="number" placeholder="Valor Investido" {...register("amount")} className={errors.amount ? "border-destructive" : ""} />
+                    <input
+                        autoComplete="new-password" type="number" placeholder="Valor Investido" {...register("amount")} className={errors.amount ? "border-destructive" : ""} />
                     {errors.amount && <p className="text-sm text-destructive">{errors.amount.message}</p>}
 
-                   <input 
-autoComplete="new-password" type="number" placeholder="Taxa de Retorno (%)" {...register("returnRate")} />
+                    <input
+                        autoComplete="new-password" type="number" placeholder="Taxa de Retorno (%)" {...register("returnRate")} />
 
-                   <input 
-autoComplete="new-password" type="date" placeholder="Data de Início" {...register("startDate")} className={errors.startDate ? "border-destructive" : ""} />
+                    <input
+                        autoComplete="new-password" type="date" placeholder="Data de Início" {...register("startDate")} className={errors.startDate ? "border-destructive" : ""} />
                     {errors.startDate && <p className="text-sm text-destructive">{errors.startDate.message}</p>}
 
-                   <input 
-autoComplete="new-password" type="date" placeholder="Data de Resgate (Opcional)" {...register("endDate")} />
+                    <input
+                        autoComplete="new-password" type="date" placeholder="Data de Resgate (Opcional)" {...register("endDate")} />
 
                     <Button type="submit" className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white" disabled={isSubmitting}>
                         {isSubmitting ? "Adicionando..." : "Adicionar Investimento"}
