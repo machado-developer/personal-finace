@@ -55,11 +55,7 @@ function HeaderNonAuth() {
                             <Link href="#funcionalidades">Funcionalidades</Link>
 
                         </li>
-                        <li>
-
-                            <Link href="#depoimentos">Depoimentos</Link>
-
-                        </li>
+                        
 
                     </ul>
                     <ul className="flex space-x-5 justify-center w-full">
