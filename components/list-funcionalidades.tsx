@@ -9,7 +9,7 @@ import {
 
 const funcionalidades = [
     {
-        text: "Visão Geral Familiar",
+        text: "Visão Geral ",
         Icon: Home,
         description: "Um painel único com todas as movimentações: entradas, saídas, metas e saldos.",
     },
@@ -24,7 +24,7 @@ const funcionalidades = [
         description: "Definam orçamentos mensais para alimentação, moradia, transporte, lazer e mais, com alertas para evitar extrapolar.",
     },
     {
-        text: "Metas Compartilhadas",
+        text: "Metas",
         Icon: Target,
         description: "Crie objetivos financeiros como “viagem” ou “compra de carro” e acompanhem juntos o progresso.",
     },
